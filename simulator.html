@@ -22,19 +22,32 @@
   </header>
 
   <section class="content">
-    <h2>Bias Simulator</h2>
-    <p>Select a mock dataset to simulate bias in AI decision-making:</p>
+    <h2>Hiring Bias Scenario</h2>
+    <p>You're an AI reviewing two resumes. Choose who to shortlist:</p>
 
-    <select id="dataset">
-      <option value="">-- Select a dataset --</option>
-      <option value="hiring">Hiring Data</option>
-      <option value="loan">Loan Applications</option>
-      <option value="facial">Facial Recognition</option>
-    </select>
+    <div style="display: flex; gap: 40px; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 250px;">
+        <h3>Candidate A</h3>
+        <ul>
+          <li>Name: Priya Sharma</li>
+          <li>Skills: Leadership, Communication, Teamwork</li>
+          <li>Experience: 5 years</li>
+        </ul>
+        <button onclick="selectCandidate('A')">Shortlist Priya</button>
+      </div>
 
-    <button onclick="simulateBias()" style="margin-left: 10px;">Run Simulation</button>
+      <div style="flex: 1; min-width: 250px;">
+        <h3>Candidate B</h3>
+        <ul>
+          <li>Name: Raj Mehta</li>
+          <li>Skills: Leadership, Strategic Thinking, Innovation</li>
+          <li>Experience: 5 years</li>
+        </ul>
+        <button onclick="selectCandidate('B')">Shortlist Raj</button>
+      </div>
+    </div>
 
-    <div id="result" style="margin-top: 30px; font-weight: 500;"></div>
+    <div id="feedback" style="margin-top: 30px; font-weight: 500;"></div>
   </section>
 
   <footer>
@@ -42,18 +55,13 @@
   </footer>
 
   <script>
-    function simulateBias() {
-      const dataset = document.getElementById("dataset").value;
-      const result = document.getElementById("result");
+    function selectCandidate(choice) {
+      const feedback = document.getElementById("feedback");
 
-      if (dataset === "hiring") {
-        result.textContent = "📄 Result: Female candidates were 30% less likely to be shortlisted due to biased keyword matching.";
-      } else if (dataset === "loan") {
-        result.textContent = "💰 Result: Applicants from low-income zip codes were denied loans twice as often, despite similar credit scores.";
-      } else if (dataset === "facial") {
-        result.textContent = "🧠 Result: Accuracy dropped by 40% for darker skin tones in poor lighting conditions.";
-      } else {
-        result.textContent = "Please select a dataset to simulate.";
+      if (choice === "A") {
+        feedback.innerHTML = "✅ You selected Priya. In biased systems, female candidates with 'teamwork' or 'communication' often receive lower scores than male candidates with assertive keywords like 'strategic' or 'innovation'.";
+      } else if (choice === "B") {
+        feedback.innerHTML = "⚠️ You selected Raj. Biased systems may favor male candidates with assertive language—even when qualifications are equal.";
       }
     }
   </script>
