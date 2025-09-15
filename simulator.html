@@ -22,21 +22,40 @@
 
   <section class="content">
     <h2>Choose a Dataset</h2>
-    <p>Select a mock dataset to see how bias might affect AI decisions:</p>
-    <ul>
-      <li><strong>Hiring Data:</strong> Gender bias in resume screening</li>
-      <li><strong>Loan Applications:</strong> Income and zip code bias</li>
-      <li><strong>Facial Recognition:</strong> Skin tone and lighting bias</li>
-    </ul>
+    <p>Select a mock dataset to simulate bias in AI decision-making:</p>
 
-    <h2>Simulated Outcome</h2>
-    <p>Based on your selection, the simulator will show how certain groups may be unfairly favored or penalized.</p>
-    <p><em>This is a simplified model for educational purposes. Future versions may include interactive simulations.</em></p>
+    <select id="dataset">
+      <option value="">-- Select a dataset --</option>
+      <option value="hiring">Hiring Data</option>
+      <option value="loan">Loan Applications</option>
+      <option value="facial">Facial Recognition</option>
+    </select>
+
+    <button onclick="simulateBias()" style="margin-left: 10px;">Run Simulation</button>
+
+    <div id="result" style="margin-top: 30px; font-weight: 500;"></div>
   </section>
 
   <footer>
     <p>© 2025 BiasDecoded. All rights reserved.</p>
   </footer>
+
+  <script>
+    function simulateBias() {
+      const dataset = document.getElementById("dataset").value;
+      const result = document.getElementById("result");
+
+      if (dataset === "hiring") {
+        result.textContent = "📄 Result: Female candidates were 30% less likely to be shortlisted due to biased keyword matching.";
+      } else if (dataset === "loan") {
+        result.textContent = "💰 Result: Applicants from low-income zip codes were denied loans twice as often, despite similar credit scores.";
+      } else if (dataset === "facial") {
+        result.textContent = "🧠 Result: Accuracy dropped by 40% for darker skin tones in poor lighting conditions.";
+      } else {
+        result.textContent = "Please select a dataset to simulate.";
+      }
+    }
+  </script>
 
 </body>
 </html>
