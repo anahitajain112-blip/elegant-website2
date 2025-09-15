@@ -1,39 +1,82 @@
 :root {
-  --background: #F5F5F5;        /* Light gray background */
-  --card: #FFFFFF;              /* Pure white for content boxes */
-  --text: #333333;              /* Dark gray for readable text */
-  --accent: #0077B6;            /* Muted blue for links and highlights */
-  --border: #DDDDDD;            /* Light border for subtle separation */
-}
-* {
-  transition: all 0.3s ease;
-}
-body {
-  background-color: var(--background);
-  color: var(--text);
+  --background: #F5F5F5;     /* Light gray background */
+  --card: #FFFFFF;           /* Pure white for content boxes */
+  --text: #333333;           /* Dark gray for readable text */
+  --accent: #0077B6;         /* Muted blue for links and highlights */
+  --border: #DDDDDD;         /* Light border for subtle separation */
 }
 
+/* Smooth transitions for all elements */
+* {
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--background);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 20px;
+}
+
+/* Header styling */
 header {
   background-color: var(--card);
   color: var(--text);
   border-bottom: 1px solid var(--border);
+  text-align: center;
+  padding: 30px 0;
+}
+
+header img {
+  width: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+header h1 {
+  font-size: 2.5em;
+  margin: 0;
+}
+
+nav {
+  margin-top: 10px;
 }
 
 nav a {
   color: var(--accent);
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: 500;
 }
 
+nav a:hover {
+  color: var(--text);
+}
+
+/* Content section */
 .content {
   background-color: var(--card);
+  color: var(--text);
   border: 1px solid var(--border);
-  padding: 20px;
+  padding: 30px;
   border-radius: 8px;
+  max-width: 800px;
+  margin: 40px auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
+
+/* Footer styling */
 footer {
+  background-color: var(--card);
+  color: var(--text);
+  border-top: 1px solid var(--border);
   text-align: center;
+  padding: 20px;
   margin-top: 60px;
   font-size: 0.9em;
-  color: var(--soft-white);
 }
 
 .blog-post {
