@@ -5,7 +5,9 @@
   --accent: #0077B6;            /* Muted blue for links and highlights */
   --border: #DDDDDD;            /* Light border for subtle separation */
 }
-
+* {
+  transition: all 0.3s ease;
+}
 body {
   background-color: var(--background);
   color: var(--text);
@@ -24,7 +26,8 @@ nav a {
 .content {
   background-color: var(--card);
   border: 1px solid var(--border);
-  box-shadow: none;
+  padding: 20px;
+  border-radius: 8px;
 }
 footer {
   text-align: center;
