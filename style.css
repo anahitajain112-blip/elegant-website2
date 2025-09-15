@@ -1,48 +1,31 @@
 :root {
-  --midnight: #0D0D0D;
-  --charcoal: #1C1C1C;
-  --slate-gray: #2F4F4F;
-  --soft-white: #EAEAEA;
-  --accent-purple: #8A2BE2;
+  --background: #F5F5F5;        /* Light gray background */
+  --card: #FFFFFF;              /* Pure white for content boxes */
+  --text: #333333;              /* Dark gray for readable text */
+  --accent: #0077B6;            /* Muted blue for links and highlights */
+  --border: #DDDDDD;            /* Light border for subtle separation */
 }
 
 body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: var(--midnight);
-  color: var(--soft-white);
-  line-height: 1.6;
-  padding: 20px;
+  background-color: var(--background);
+  color: var(--text);
 }
 
 header {
-  text-align: center;
-  padding: 40px 20px;
-  background-color: var(--accent-purple);
-  color: var(--soft-white);
-  border-radius: 8px;
+  background-color: var(--card);
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
 }
 
 nav a {
-  color: var(--soft-white);
-  text-decoration: none;
-  margin: 0 10px;
-  font-weight: bold;
-}
-
-nav a:hover {
-  color: var(--charcoal);
+  color: var(--accent);
 }
 
 .content {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: var(--charcoal);
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: none;
 }
-
 footer {
   text-align: center;
   margin-top: 60px;
