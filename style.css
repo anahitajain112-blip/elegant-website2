@@ -1,0 +1,80 @@
+:root {
+  --almond-milk: #F5F0E6;
+  --rich-espresso: #3B2F2F;
+  --dusty-rose: #C08081;
+  --cream-accent: #F3E5AB;
+}
+
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background-color: var(--almond-milk);
+  color: var(--rich-espresso);
+  line-height: 1.6;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: var(--dusty-rose);
+  color: var(--almond-milk);
+  border-radius: 8px;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  color: var(--almond-milk);
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.content {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: var(--cream-accent);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(59, 47, 47, 0.1);
+}
+
+footer {
+  text-align: center;
+  margin-top: 60px;
+  font-size: 0.9em;
+  color: var(--rich-espresso);
+}
+
+.blog-post {
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rich-espresso);
+}
+
+.blog-post h2 {
+  margin-bottom: 5px;
+  font-size: 1.8em;
+}
+
+.blog-post h2 a {
+  color: var(--rich-espresso);
+  text-decoration: none;
+}
+
+.blog-post h2 a:hover {
+  color: var(--dusty-rose);
+}
+
+.blog-post .date {
+  font-size: 0.9em;
+  color: #6e5e5e;
+  margin-bottom: 10px;
+}
