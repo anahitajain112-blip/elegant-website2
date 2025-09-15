@@ -1,11 +1,14 @@
 :root {
-  --background: #F5F5F5;     /* Light gray background */
-  --card: #FFFFFF;           /* Pure white for content boxes */
-  --text: #333333;           /* Dark gray for readable text */
-  --accent: #0077B6;         /* Muted blue for links and highlights */
-  --border: #DDDDDD;         /* Light border for subtle separation */
-}
+  --background: #ffffff;       /* Pure white background */
+  --card: #f9f9f9;             /* Slightly off-white for contrast */
+  --text: #111111;             /* Deep black for strong readability */
+  --accent: #000000;           /* Black for links and highlights */
+  --border: #e0e0e0;           /* Soft gray for subtle separation */
 
+  --slate-gray: #999999;       /* Neutral gray for blog post borders */
+  --accent-purple: #222222;    /* Dark gray for blog titles */
+  --soft-white: #eeeeee;       /* Light hover color */
+}
 /* Smooth transitions for all elements */
 * {
   transition: all 0.3s ease;
