@@ -1,27 +1,35 @@
 :root {
-  --background: #ffffff;       /* Pure white background */
-  --card: #f9f9f9;             /* Slightly off-white for contrast */
-  --text: #111111;             /* Deep black for strong readability */
-  --accent: #000000;           /* Black for links and highlights */
-  --border: #e0e0e0;           /* Soft gray for subtle separation */
+  --background: #fdf6e3;       /* Soft cream background */
+  --card: #fffdf7;             /* Slightly lighter cream for content boxes */
+  --text: #2e2e2e;             /* Deep charcoal for readability */
+  --accent: #5c5c5c;           /* Muted gray for links and highlights */
+  --border: #e6e1d8;           /* Subtle beige-gray for separation */
 
-  --slate-gray: #999999;       /* Neutral gray for blog post borders */
-  --accent-purple: #222222;    /* Dark gray for blog titles */
-  --soft-white: #eeeeee;       /* Light hover color */
+  --slate-gray: #a8a8a8;
+  --accent-purple: #3c3c3c;
+  --soft-white: #f5f0e6;
 }
+
 /* Smooth transitions for all elements */
 * {
   transition: all 0.3s ease;
   box-sizing: border-box;
 }
 
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Inter', sans-serif;
   background-color: var(--background);
   color: var(--text);
   line-height: 1.6;
   padding: 20px;
+  animation: fadeIn 1s ease-in;
 }
 
 /* Header styling */
@@ -30,33 +38,42 @@ header {
   color: var(--text);
   border-bottom: 1px solid var(--border);
   text-align: center;
-  padding: 30px 0;
+  padding: 40px 0;
 }
 
 header img {
-  width: 100px;
+  width: 140px;
   border-radius: 50%;
   margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+
+header img:hover {
+  transform: scale(1.05);
 }
 
 header h1 {
-  font-size: 2.5em;
+  font-size: 2.8em;
   margin: 0;
+  font-weight: 600;
 }
 
 nav {
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 nav a {
   color: var(--accent);
   text-decoration: none;
-  margin: 0 10px;
+  margin: 0 12px;
   font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 nav a:hover {
-  color: var(--text);
+  background-color: var(--soft-white);
+  color: var(--accent);
 }
 
 /* Content section */
@@ -69,6 +86,7 @@ nav a:hover {
   max-width: 800px;
   margin: 40px auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 1s ease-in;
 }
 
 /* Footer styling */
@@ -82,6 +100,7 @@ footer {
   font-size: 0.9em;
 }
 
+/* Blog post styling */
 .blog-post {
   margin-bottom: 40px;
   padding-bottom: 20px;
@@ -94,11 +113,23 @@ footer {
 }
 
 .blog-post h2 a:hover {
-  color: var(--soft-white);
+  background-color: var(--soft-white);
+  color: var(--accent);
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
 .blog-post .date {
   font-size: 0.9em;
   color: #aaa;
   margin-bottom: 10px;
+}
+
+/* Tagline or quote styling */
+.tagline {
+  font-style: italic;
+  font-size: 1.2em;
+  color: var(--accent);
+  margin-top: 20px;
+  animation: fadeIn 1s ease-in;
 }
