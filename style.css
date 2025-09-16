@@ -12,19 +12,32 @@ header {
   background-color: #2E3A59;
   color: white;
   text-align: center;
-  padding: 20px;
+  padding: 30px 20px;
 }
 
 .logo {
-  width: 100px;
+  width: 80px;
   height: auto;
   border-radius: 8px;
   margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tagline {
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+nav {
+  margin-top: 15px;
 }
 
 nav a {
+  display: inline-block;
+  margin: 0 12px;
   color: #FFD166;
-  margin: 0 15px;
   text-decoration: none;
   font-weight: 600;
   font-size: 15px;
@@ -50,10 +63,13 @@ nav a:hover {
   font-style: italic;
   color: #666;
   margin-top: 10px;
+  text-align: center;
 }
 
 .content {
-  padding: 40px;
+  padding: 40px 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 h1 {
