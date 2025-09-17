@@ -53,7 +53,8 @@ nav a:hover {
 }
 
 .hero-img {
-  max-width: 90%;
+  max-width: 600px;   /* Shrinks the image to a manageable size */
+  width: 100%;
   height: auto;
   border-radius: 10px;
   display: block;
