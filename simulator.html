@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bias Simulator</title>
+  <title>Bias Simulator – BiasDecoded</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
   <header>
-    <img src="https://github.com/anahitajain112-blip/elegant-website2/blob/main/attachment_111788921.jpg?raw=true" alt="Site Logo" />
+    <img src="https://github.com/anahitajain112-blip/elegant-website2/blob/main/attachment_111788921.jpg?raw=true" alt="BiasDecoded Logo" class="logo" />
     <h1>BiasDecoded</h1>
     <p class="tagline">Explore how biased data can influence AI outcomes.</p>
     <nav>
@@ -21,107 +21,109 @@
     </nav>
   </header>
 
-  <section class="content">
-    <h2>Hiring Bias Scenario</h2>
-    <p>You're an AI reviewing two resumes. Choose who to shortlist:</p>
-    <div style="display: flex; gap: 40px; flex-wrap: wrap;">
-      <div style="flex: 1; min-width: 250px;">
-        <h3>Candidate A</h3>
-        <ul>
-          <li>Name: Priya Sharma</li>
-          <li>Skills: Leadership, Communication, Teamwork</li>
-          <li>Experience: 5 years</li>
-        </ul>
-        <button onclick="selectCandidate('A')">Shortlist Priya</button>
+  <main>
+    <section class="content">
+      <h2>Hiring Bias Scenario</h2>
+      <p>You're an AI reviewing two resumes. Choose who to shortlist:</p>
+      <div class="scenario">
+        <div class="option">
+          <h3>Candidate A</h3>
+          <ul>
+            <li>Name: Priya Sharma</li>
+            <li>Skills: Leadership, Communication, Teamwork</li>
+            <li>Experience: 5 years</li>
+          </ul>
+          <button onclick="selectCandidate('A')">Shortlist Priya</button>
+        </div>
+        <div class="option">
+          <h3>Candidate B</h3>
+          <ul>
+            <li>Name: Raj Mehta</li>
+            <li>Skills: Leadership, Strategic Thinking, Innovation</li>
+            <li>Experience: 5 years</li>
+          </ul>
+          <button onclick="selectCandidate('B')">Shortlist Raj</button>
+        </div>
       </div>
-      <div style="flex: 1; min-width: 250px;">
-        <h3>Candidate B</h3>
-        <ul>
-          <li>Name: Raj Mehta</li>
-          <li>Skills: Leadership, Strategic Thinking, Innovation</li>
-          <li>Experience: 5 years</li>
-        </ul>
-        <button onclick="selectCandidate('B')">Shortlist Raj</button>
-      </div>
-    </div>
-    <div id="feedback" style="margin-top: 30px; font-weight: 500;"></div>
+      <div id="feedback" class="feedback"></div>
 
-    <h2>Loan Approval Bias Scenario</h2>
-    <p>You're an AI reviewing two loan applications. Choose who to approve:</p>
-    <div style="display: flex; gap: 40px; flex-wrap: wrap;">
-      <div style="flex: 1; min-width: 250px;">
-        <h3>Applicant A</h3>
-        <ul>
-          <li>Name: Anita Verma</li>
-          <li>Income: ₹8,00,000/year</li>
-          <li>Zip Code: 560001 (Urban)</li>
-          <li>Credit Score: 720</li>
-        </ul>
-        <button onclick="selectLoan('A')">Approve Anita</button>
+      <h2>Loan Approval Bias Scenario</h2>
+      <p>You're an AI reviewing two loan applications. Choose who to approve:</p>
+      <div class="scenario">
+        <div class="option">
+          <h3>Applicant A</h3>
+          <ul>
+            <li>Name: Anita Verma</li>
+            <li>Income: ₹8,00,000/year</li>
+            <li>Zip Code: 560001 (Urban)</li>
+            <li>Credit Score: 720</li>
+          </ul>
+          <button onclick="selectLoan('A')">Approve Anita</button>
+        </div>
+        <div class="option">
+          <h3>Applicant B</h3>
+          <ul>
+            <li>Name: Ravi Kumar</li>
+            <li>Income: ₹8,00,000/year</li>
+            <li>Zip Code: 560078 (Low-income area)</li>
+            <li>Credit Score: 720</li>
+          </ul>
+          <button onclick="selectLoan('B')">Approve Ravi</button>
+        </div>
       </div>
-      <div style="flex: 1; min-width: 250px;">
-        <h3>Applicant B</h3>
-        <ul>
-          <li>Name: Ravi Kumar</li>
-          <li>Income: ₹8,00,000/year</li>
-          <li>Zip Code: 560078 (Low-income area)</li>
-          <li>Credit Score: 720</li>
-        </ul>
-        <button onclick="selectLoan('B')">Approve Ravi</button>
-      </div>
-    </div>
-    <div id="loanFeedback" style="margin-top: 30px; font-weight: 500;"></div>
+      <div id="loanFeedback" class="feedback"></div>
 
-    <h2>Facial Recognition Bias Scenario</h2>
-    <p>You're testing an AI system on two images. Choose which one it recognized correctly:</p>
-    <div style="display: flex; gap: 40px; flex-wrap: wrap;">
-      <div style="flex: 1; min-width: 250px;">
-        <h3>Image A</h3>
-        <ul>
-          <li>Skin Tone: Light</li>
-          <li>Lighting: Bright</li>
-          <li>Recognition Accuracy: 98%</li>
-        </ul>
-        <button onclick="selectFacial('A')">Select Image A</button>
+      <h2>Facial Recognition Bias Scenario</h2>
+      <p>You're testing an AI system on two images. Choose which one it recognized correctly:</p>
+      <div class="scenario">
+        <div class="option">
+          <h3>Image A</h3>
+          <ul>
+            <li>Skin Tone: Light</li>
+            <li>Lighting: Bright</li>
+            <li>Recognition Accuracy: 98%</li>
+          </ul>
+          <button onclick="selectFacial('A')">Select Image A</button>
+        </div>
+        <div class="option">
+          <h3>Image B</h3>
+          <ul>
+            <li>Skin Tone: Dark</li>
+            <li>Lighting: Dim</li>
+            <li>Recognition Accuracy: 58%</li>
+          </ul>
+          <button onclick="selectFacial('B')">Select Image B</button>
+        </div>
       </div>
-      <div style="flex: 1; min-width: 250px;">
-        <h3>Image B</h3>
-        <ul>
-          <li>Skin Tone: Dark</li>
-          <li>Lighting: Dim</li>
-          <li>Recognition Accuracy: 58%</li>
-        </ul>
-        <button onclick="selectFacial('B')">Select Image B</button>
-      </div>
-    </div>
-    <div id="facialFeedback" style="margin-top: 30px; font-weight: 500;"></div>
+      <div id="facialFeedback" class="feedback"></div>
 
-    <h2>Medical Diagnosis Bias Scenario</h2>
-    <p>You're an AI diagnosing two patients with similar symptoms. Choose who gets flagged for follow-up:</p>
-    <div style="display: flex; gap: 40px; flex-wrap: wrap;">
-      <div style="flex: 1; min-width: 250px;">
-        <h3>Patient A</h3>
-        <ul>
-          <li>Name: Sunita Reddy</li>
-          <li>Age: 45</li>
-          <li>Symptoms: Chest pain, fatigue</li>
-          <li>Ethnicity: South Asian</li>
-        </ul>
-        <button onclick="selectMedical('A')">Flag Sunita</button>
+      <h2>Medical Diagnosis Bias Scenario</h2>
+      <p>You're an AI diagnosing two patients with similar symptoms. Choose who gets flagged for follow-up:</p>
+      <div class="scenario">
+        <div class="option">
+          <h3>Patient A</h3>
+          <ul>
+            <li>Name: Sunita Reddy</li>
+            <li>Age: 45</li>
+            <li>Symptoms: Chest pain, fatigue</li>
+            <li>Ethnicity: South Asian</li>
+          </ul>
+          <button onclick="selectMedical('A')">Flag Sunita</button>
+        </div>
+        <div class="option">
+          <h3>Patient B</h3>
+          <ul>
+            <li>Name: John Smith</li>
+            <li>Age: 45</li>
+            <li>Symptoms: Chest pain, fatigue</li>
+            <li>Ethnicity: White</li>
+          </ul>
+          <button onclick="selectMedical('B')">Flag John</button>
+        </div>
       </div>
-      <div style="flex: 1; min-width: 250px;">
-        <h3>Patient B</h3>
-        <ul>
-          <li>Name: John Smith</li>
-          <li>Age: 45</li>
-          <li>Symptoms: Chest pain, fatigue</li>
-          <li>Ethnicity: White</li>
-        </ul>
-        <button onclick="selectMedical('B')">Flag John</button>
-      </div>
-    </div>
-    <div id="medicalFeedback" style="margin-top: 30px; font-weight: 500;"></div>
-  </section>
+      <div id="medicalFeedback" class="feedback"></div>
+    </section>
+  </main>
 
   <footer>
     <p>© 2025 BiasDecoded. All rights reserved.</p>
@@ -130,38 +132,30 @@
   <script>
     function selectCandidate(choice) {
       const feedback = document.getElementById("feedback");
-      if (choice === "A") {
-        feedback.innerHTML = "✅ You selected Priya. In biased systems, female candidates with 'teamwork' or 'communication' often receive lower scores than male candidates with assertive keywords like 'strategic' or 'innovation'.";
-      } else {
-        feedback.innerHTML = "⚠️ You selected Raj. Biased systems may favor male candidates with assertive language—even when qualifications are equal.";
-      }
+      feedback.innerHTML = choice === "A"
+        ? "✅ You selected Priya. In biased systems, female candidates with 'teamwork' or 'communication' often receive lower scores than male candidates with assertive keywords like 'strategic' or 'innovation'."
+        : "⚠️ You selected Raj. Biased systems may favor male candidates with assertive language—even when qualifications are equal.";
     }
 
     function selectLoan(choice) {
       const feedback = document.getElementById("loanFeedback");
-      if (choice === "A") {
-        feedback.innerHTML = "✅ You approved Anita. Biased systems often favor applicants from wealthier zip codes—even when credit scores and income are identical.";
-      } else {
-        feedback.innerHTML = "⚠️ You approved Ravi. In biased systems, applicants from low-income areas may be unfairly denied due to geographic profiling.";
-      }
+      feedback.innerHTML = choice === "A"
+        ? "✅ You approved Anita. Biased systems often favor applicants from wealthier zip codes—even when credit scores and income are identical."
+        : "⚠️ You approved Ravi. In biased systems, applicants from low-income areas may be unfairly denied due to geographic profiling.";
     }
 
     function selectFacial(choice) {
       const feedback = document.getElementById("facialFeedback");
-      if (choice === "A") {
-        feedback.innerHTML = "✅ You selected Image A. AI systems often perform better on lighter skin tones in well-lit conditions.";
-      } else {
-        feedback.innerHTML = "⚠️ You selected Image B. Many facial recognition systems show reduced accuracy for darker skin tones in poor lighting—raising serious equity concerns.";
-      }
+      feedback.innerHTML = choice === "A"
+        ? "✅ You selected Image A. AI systems often perform better on lighter skin tones in well-lit conditions."
+        : "⚠️ You selected Image B. Many facial recognition systems show reduced accuracy for darker skin tones in poor lighting—raising serious equity concerns.";
     }
 
     function selectMedical(choice) {
       const feedback = document.getElementById("medicalFeedback");
-      if (choice === "A") {
-        feedback.innerHTML = "✅ You flagged Sunita. Studies show that AI systems may underdiagnose heart conditions in South Asian women due to biased training data.";
-      } else {
-        feedback.innerHTML = "⚠️ You flagged John. Biased systems often overdiagnose certain groups while underdiagnosing others—especially women and minorities.";
-      }
+      feedback.innerHTML = choice === "A"
+        ? "✅ You flagged Sunita. Studies show that AI systems may underdiagnose heart conditions in South Asian women due to biased training data."
+        : "⚠️ You flagged John. Biased systems often overdiagnose certain groups while underdiagnosing others—especially women and minorities.";
     }
   </script>
 
