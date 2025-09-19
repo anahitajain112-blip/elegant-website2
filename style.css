@@ -200,14 +200,16 @@ footer {
 .hero-image {
   text-align: center;
   margin: 40px auto;
+  padding: 0 20px;
 }
 
 .hero-img {
   width: 100%;
-  max-width: 600px; /* Controls image size */
+  max-width: 600px; /* Adjust this to control size */
   height: auto;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
 }
 
 .caption {
