@@ -5,115 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BiasDecoded: Who Gets the Job?</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background-color: #F9F7F1;
-      color: #333;
-      font-family: 'Press Start 2P', cursive;
-      text-align: center;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-    nav {
-      margin-top: 10px;
-    }
-    nav a {
-      margin: 0 12px;
-      color: #FF5E5E;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 12px;
-    }
-    nav a:hover {
-      color: #FFD166;
-    }
-    .candidate-grid {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 30px;
-      flex-wrap: wrap;
-    }
-    .card {
-      background-color: #fff;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      padding: 15px;
-      width: 180px;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      color: #333;
-    }
-    .card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 10px #FFD166;
-    }
-    .selected {
-      border-color: #4CAF50;
-      background-color: #E0FFE0;
-    }
-    .avatar {
-      width: 80px;
-      height: 80px;
-      image-rendering: pixelated;
-      margin-bottom: 10px;
-      border-radius: 4px;
-    }
-    #biasMeter {
-      margin-top: 30px;
-      width: 300px;
-      height: 20px;
-      background-color: #ddd;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    #biasFill {
-      height: 100%;
-      width: 0%;
-      background-color: #FF5E5E;
-      transition: width 0.5s ease;
-    }
-    #biasScore {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    #feedback, #report {
-      margin-top: 30px;
-      font-size: 12px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #FF5E5E;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 12px;
-    }
-    button:hover {
-      background-color: #FF9E9E;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <h1>BiasDecoded: Who Gets the Job?</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="simulator-game.html">Simulator</a>
-    <a href="about.html">About</a>
-  </nav>
+  <header>
+    <h1>BiasDecoded: Who Gets the Job?</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="simulator-game.html">Simulator</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
   <p>Select 1 candidate to shortlist for the job.</p>
 
   <div class="candidate-grid" id="candidateGrid"></div>
@@ -123,7 +27,8 @@
   </div>
   <div id="biasScore">Bias Score: 0</div>
 
-  <button onclick="submitSelection()">Submit Selection</button>
+  <button onclick="submitSelection()" id="submitBtn">Submit Selection</button>
+  <button onclick="restartGame()" id="restartBtn" style="display:none;">Play Again</button>
 
   <div id="feedback"></div>
   <div id="report"></div>
@@ -182,12 +87,13 @@
 
       if (round === 1) {
         firstScore = biasScore;
-        document.querySelector("button").innerText = "Try Again";
+        document.getElementById("submitBtn").innerText = "Try Again";
         round++;
         selected = [];
         renderCandidates();
       } else {
-        document.querySelector("button").style.display = "none";
+        document.getElementById("submitBtn").style.display = "none";
+        document.getElementById("restartBtn").style.display = "inline-block";
         document.getElementById("report").innerHTML = `
           <h3>Final Report</h3>
           <p>In Round 1, your model leaned toward ${firstScore > 20 ? "elite, urban traits" : "inclusive traits"}.</p>
@@ -195,6 +101,21 @@
           <p>This shows how awareness can reduce bias in AI systems. <strong>BiasDecoded</strong> helps you reflect on how data-driven decisions can still carry human values.</p>
         `;
       }
+    }
+
+    function restartGame() {
+      round = 1;
+      selected = [];
+      biasScore = 0;
+      firstScore = 0;
+      document.getElementById("biasScore").innerText = "Bias Score: 0";
+      document.getElementById("biasFill").style.width = "0%";
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("report").innerHTML = "";
+      document.getElementById("submitBtn").innerText = "Submit Selection";
+      document.getElementById("submitBtn").style.display = "inline-block";
+      document.getElementById("restartBtn").style.display = "none";
+      renderCandidates();
     }
 
     renderCandidates();
