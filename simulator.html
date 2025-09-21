@@ -68,6 +68,11 @@
       margin: 30px 0;
       text-align: center;
     }
+    .score-display {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
     .meter-bar {
       width: 100%;
       max-width: 400px;
@@ -89,7 +94,7 @@
 
   <header>
     <h1>BiasDecoded</h1>
-    <p class="tagline">You're building an AI hiring model. Every choice matters.</p>
+    <p class="tagline">You're the AI lead at FairHire Inc. Every choice shapes your model.</p>
   </header>
 
   <main>
@@ -97,6 +102,9 @@
 
       <div class="bias-meter">
         <label>Bias Meter:</label>
+        <div class="score-display">
+          Bias Score: <span id="biasNumber">0</span> / 240
+        </div>
         <div class="meter-bar">
           <div id="biasLevel" class="meter-fill"></div>
         </div>
@@ -116,7 +124,7 @@
     const stages = [
       {
         title: "Stage 1: Data Collection",
-        question: "You’re collecting resumes to train your hiring model. Choose your dataset:",
+        question: "You're collecting resumes to train your hiring model. Choose your dataset:",
         options: [
           {
             label: "Use Historical Company Data",
@@ -166,8 +174,11 @@
 
     function updateBiasMeter() {
       const fill = document.getElementById("biasLevel");
+      const number = document.getElementById("biasNumber");
       const percent = Math.min(Math.max(biasScore / (stages.length * 80) * 100, 0), 100);
       fill.style.width = percent + "%";
+      number.innerText = biasScore;
+
       if (percent < 40) fill.style.backgroundColor = "#FF6B6B";
       else if (percent < 70) fill.style.backgroundColor = "#FFD166";
       else fill.style.backgroundColor = "#4CAF50";
