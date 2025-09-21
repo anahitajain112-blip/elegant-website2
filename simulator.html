@@ -212,45 +212,75 @@
     </section>
   </main>
 
-  <script>
-    let biasScore = 50;
-    let decisions = [];
+ <script>
+  let biasScore = 0;
+  let decisions = [];
 
-    function updateBiasMeter() {
-      const fill = document.getElementById("biasLevel");
-      const percent = Math.min(Math.max(biasScore, 0), 100);
-      fill.style.width = percent + "%";
-      if (percent < 40) fill.style.backgroundColor = "#FF6B6B";
-      else if (percent < 70) fill.style.backgroundColor = "#FFD166";
-      else fill.style.backgroundColor = "#4CAF50";
+  function updateBiasMeter() {
+    const fill = document.getElementById("biasLevel");
+    const percent = Math.min(Math.max(biasScore, 0), 100);
+    fill.style.width = percent + "%";
+    if (percent < 40) fill.style.backgroundColor = "#FF6B6B";
+    else if (percent < 70) fill.style.backgroundColor = "#FFD166";
+    else fill.style.backgroundColor = "#4CAF50";
+  }
+
+  function select(choice, scenario) {
+    let feedback = "";
+    let impact = 0;
+
+    if (scenario === "resume") {
+      if (choice === "A") {
+        feedback = "✅ You selected Ayesha. This promotes non-traditional backgrounds and real-world experience.";
+        impact = +30;
+      } else {
+        feedback = "⚠️ You selected Arjun. Favoring elite degrees can exclude capable candidates from diverse paths.";
+        impact = -10;
+      }
+      document.getElementById("feedback1").innerHTML = feedback;
     }
 
-    function select(choice, scenario) {
-      let feedback = "";
-      let impact = 0;
-
-      if (scenario === "resume") {
-        if (choice === "A") {
-          feedback = "✅ You selected Ayesha. This promotes non-traditional backgrounds and real-world experience.";
-          impact = +10;
-        } else {
-          feedback = "⚠️ You selected Arjun. Favoring elite degrees can exclude capable candidates from diverse paths.";
-          impact = -10;
-        }
-        document.getElementById("feedback1").innerHTML = feedback;
+    if (scenario === "loan") {
+      if (choice === "A") {
+        feedback = "⚠️ You approved Neha. Urban applicants are often favored by biased models.";
+        impact = -10;
+      } else {
+        feedback = "✅ You approved Ramesh. This challenges geographic profiling and promotes fairness.";
+        impact = +30;
       }
+      document.getElementById("feedback2").innerHTML = feedback;
+    }
 
-      if (scenario === "loan") {
-        if (choice === "A") {
-          feedback = "✅ You approved Neha. Urban applicants are often favored by biased models.";
-          impact = -10;
-        } else {
-          feedback = "✅ You approved Ramesh. This challenges geographic profiling and promotes fairness.";
-          impact = +10;
-        }
-        document.getElementById("feedback2").innerHTML = feedback;
+    if (scenario === "voice") {
+      if (choice === "A") {
+        feedback = "⚠️ You selected Sample A. Prioritizing Western accents can marginalize global users.";
+        impact = -10;
+      } else {
+        feedback = "✅ You selected Sample B. Supporting regional accents improves accessibility and inclusion.";
+        impact = +30;
       }
+      document.getElementById("feedback3").innerHTML = feedback;
+    }
 
-      if (scenario === "voice") {
-        if (choice === "A") {
+    biasScore += impact;
+    decisions.push(scenario);
+    updateBiasMeter();
+
+    if (decisions.length === 3) {
+      const summary = document.getElementById("summary");
+      summary.style.display = "block";
+      summary.innerHTML = `
+        <h3>Simulation Complete</h3>
+        <p>Your final Bias Score is <strong>${biasScore}</strong>.</p>
+        <p>${
+          biasScore < 40
+            ? "⚠️ Your decisions leaned toward biased outcomes."
+            : biasScore < 70
+            ? "🟡 Your decisions were mixed—some fair, some biased."
+            : "✅ Your decisions promoted fairness and inclusion."
+        }</p>
+      `;
+    }
+  }
+</script>
           feedback = "
