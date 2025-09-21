@@ -1,8 +1,8 @@
-/* Base Styles */
+/* Font Setup */
 body {
+  font-family: 'Poppins', sans-serif;
   background-color: #F9F7F1;
   color: #333;
-  font-family: 'Inter', sans-serif;
   font-size: 16px;
   line-height: 1.6;
   margin: 0;
@@ -24,94 +24,7 @@ header {
   padding: 30px 20px;
 }
 
-.logo {
-  width: 80px;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.tagline {
-  font-size: 16px;
-  margin-top: 5px;
-}
-
-/* Navigation */
-nav {
-  margin-top: 15px;
-  text-align: center;
-}
-
-nav a {
-  display: inline-block;
-  margin: 0 12px;
-  color: #FFD166;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 15px;
-}
-
-nav a:hover {
-  color: #FF6B6B;
-}
-
-/* Hero Image Section */
-.hero-image {
-  text-align: center;
-  margin: 40px auto;
-  padding: 0 20px;
-}
-
-.hero-img {
-  width: 100%;
-  max-width: 600px;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.caption {
-  font-size: 16px;
-  margin-top: 10px;
-  color: #555;
-  font-style: italic;
-}
-
-/* CTA Section */
-.cta {
-  text-align: center;
-  margin: 40px 0;
-}
-
-.cta-button {
-  display: inline-block;
-  background-color: #ff5e5e;
-  color: white;
-  padding: 12px 24px;
-  font-weight: 600;
-  border-radius: 8px;
-  text-decoration: none;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.cta-button:hover {
-  background-color: #ff9e9e;
-}
-
-/* Main Content */
-.content {
-  background-color: #F9F7F1;
-  padding: 40px 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-h1, h2, h3, button {
+h1, h2, h3, button, nav a, .cta-button {
   font-family: 'Press Start 2P', cursive;
 }
 
@@ -130,6 +43,24 @@ h2 {
 h3 {
   font-size: 18px;
   margin-bottom: 10px;
+}
+
+/* Navigation */
+nav {
+  margin-top: 15px;
+  text-align: center;
+}
+
+nav a {
+  display: inline-block;
+  margin: 0 12px;
+  color: #FFD166;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+nav a:hover {
+  color: #FF6B6B;
 }
 
 /* Candidate Grid */
@@ -272,11 +203,8 @@ button:focus {
     font-size: 14px;
   }
 
-  .hero-img {
-    max-width: 90%;
-  }
-
-  .caption {
-    font-size: 14px;
+  .avatar {
+    width: 70px;
+    height: 70px;
   }
 }
