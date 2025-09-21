@@ -2,11 +2,14 @@
 body {
   background-color: #F9F7F1;
   color: #333;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Press Start 2P', cursive;
   font-size: 16px;
   line-height: 1.6;
   margin: 0;
   padding: 0;
+  background-image: url('assets/bg.png');
+  background-size: cover;
+  background-repeat: repeat;
 }
 
 html {
