@@ -55,7 +55,7 @@
         waitTime: "Long",
         ageGroup: "Elderly",
         mentalHealth: "Stable",
-        image: "patient1.png",
+        image: "https://via.placeholder.com/70?text=A",
         biasScore: 30
       },
       {
@@ -64,7 +64,7 @@
         waitTime: "Short",
         ageGroup: "Adult",
         mentalHealth: "At Risk",
-        image: "patient2.png",
+        image: "https://via.placeholder.com/70?text=B",
         biasScore: 15
       },
       {
@@ -73,7 +73,7 @@
         waitTime: "Medium",
         ageGroup: "Child",
         mentalHealth: "Stable",
-        image: "patient3.png",
+        image: "https://via.placeholder.com/70?text=C",
         biasScore: 10
       },
       {
@@ -82,7 +82,7 @@
         waitTime: "Short",
         ageGroup: "Adult",
         mentalHealth: "Unknown",
-        image: "patient4.png",
+        image: "https://via.placeholder.com/70?text=D",
         biasScore: 25
       }
     ];
@@ -101,7 +101,7 @@
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-          <img src="assets/${c.image}" alt="${c.name}" class="avatar" />
+          <img src="${c.image}" alt="${c.name}" class="avatar" />
           <strong>${c.name}</strong><br>
           💉 Severity: ${c.severity}<br>
           ⏱️ Wait Time: ${c.waitTime}<br>
@@ -235,11 +235,4 @@
       document.getElementById("feedback").innerText = "";
       document.getElementById("report").innerHTML = "";
       document.getElementById("submitBtn").innerText = "Submit Selection";
-      document.getElementById("submitBtn").style.display = "inline-block";
-      document.getElementById("restartBtn").style.display = "none";
-           document.getElementById("roundTitle").innerText = "Round 1: You Decide";
-      renderCandidates();
-    }
-  </script>
-</body>
-</html>
+      document.getElementById("submit
