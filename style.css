@@ -149,11 +149,18 @@ blockquote {
   border: 2px solid #444;
   border-radius: 10px;
   padding: 15px;
-  width: 180px;
+  width: 200px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   color: #fff;
-  text-align: center;
+  text-align: left; /* better for reading data */
+  line-height: 1.4;
+}
+
+.card strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 8px;
 }
 
 .card:hover {
