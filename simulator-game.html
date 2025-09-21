@@ -164,9 +164,10 @@
       } else {
         document.querySelector("button").style.display = "none";
         document.getElementById("report").innerHTML = `
-          <h3>Final Report</h3>
-          <p>Your first selection had a bias score of ${biasScore}. You were given a chance to rethink your choice.</p>
-          <p>This shows how AI models can reflect human bias based on data and decisions. Fairness requires awareness and intervention.</p>
+  <h3>Final Report</h3>
+  <p>In Round 1, your model leaned toward ${biasScore > 20 ? "elite, urban traits" : "inclusive traits"}.</p>
+  <p>In Round 2, you reconsidered your choice. This shows how awareness can reduce bias in AI systems.</p>
+  <p><strong>BiasDecoded</strong> helps you reflect on how data-driven decisions can still carry human values.</p>
         `;
       }
 
