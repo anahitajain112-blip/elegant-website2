@@ -1,1 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Train an AI triage model and discover how your choices shape medical prioritization." />
+  <title>BiasDecoded: Who Gets Treated?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
+  <header>
+    <h1>BiasDecoded: Who Gets Treated?</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="simulator-job.html">Job Simulator</a>
+      <a href="simulator-medical.html">Medical Simulator</a>
+      <a href="simulator-loan.html">Loan Simulator</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="content">
+      <h2 id="roundTitle">Round 1: You Decide</h2>
+      <p>Select 2–3 patients to prioritize for treatment.</p>
+
+      <div class="candidate-grid" id="candidateGrid"></div>
+
+      <div id="biasMeter">
+        <div id="biasFill"></div>
+      </div>
+      <div id="biasScore">Bias Score: 0</div>
+
+      <div class="button-group">
+        <button onclick="submitSelection()" id="submitBtn">Submit Selection</button>
+        <button onclick="restartGame()" id="restartBtn" style="display:none;">Play Again</button>
+      </div>
+
+      <div id="feedback"></div>
+      <div id="report"></div>
+    </section>
+  </main>
+
+  <script>
+    const candidates = [
+      {
+        name: "Patient A",
+        severity: "Critical",
+        waitTime: "Long",
+        ageGroup: "Elderly",
+        mentalHealth: "Stable",
+        image: "patient1.png",
+        biasScore: 30
+      },
+      {
+        name: "Patient B",
+        severity: "Moderate",
+        waitTime: "Short",
+        ageGroup: "Adult",
+        mentalHealth: "At Risk",
+        image: "patient2.png",
+        biasScore: 15
+      },
+      {
+        name: "Patient C",
+        severity: "Mild",
+        waitTime: "Medium",
+        ageGroup: "Child",
+        mentalHealth: "Stable",
+        image: "patient3.png",
+        biasScore: 10
+      },
+      {
+        name: "Patient D",
+        severity: "Critical",
+        waitTime: "Short",
+        ageGroup: "Adult",
+        mentalHealth: "Unknown",
+        image: "patient4.png",
+        biasScore: 25
+      }
+    ];
+
+    let selected = [];
+    let biasScore = 0;
+    let round = 1;
+    let trainingData = [];
+    let aiModel = {};
+
+    const grid = document.getElementById("candidateGrid");
+
+    function renderCandidates() {
+      grid.innerHTML = "";
+      candidates.forEach((c, i) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="assets/${c.image}" alt="${c.name}" class="avatar" />
+          <strong>${c.name}</strong><br>
+          💉 Severity: ${c.severity}<br>
+          ⏱️ Wait Time: ${c.waitTime}<br>
+          👵 Age Group: ${c.ageGroup}<br>
+          🧠 Mental Health: ${c.mentalHealth}
+        `;
+        card.onclick = () => toggleSelect(i, card);
+        grid.appendChild(card);
+      });
+    }
+
+    function toggleSelect(index, card) {
+      if (selected.includes(index)) {
+        selected = selected.filter(i => i !== index);
+        card.classList.remove("selected");
+      } else {
+        if (selected.length < 3) {
+          selected.push(index);
+          card.classList.add("selected");
+        } else {
+          alert("You can select up to 3 patients.");
+        }
+      }
+    }
+
+    function trainModel() {
+      selected.forEach(index => {
+        const candidate = candidates[index];
+        trainingData.push(candidate);
+        for (let trait of ["severity", "waitTime", "ageGroup", "mentalHealth"]) {
+          const value = candidate[trait];
+          aiModel[trait] = aiModel[trait] || {};
+          aiModel[trait][value] = (aiModel[trait][value] || 0) + 1;
+        }
+      });
+    }
+
+    function aiSelectCandidate() {
+      let bestFitIndex = -1;
+      let highestScore = -Infinity;
+
+      candidates.forEach((c, i) => {
+        if (selected.includes(i)) return;
+        let score = 0;
+        for (let trait of ["severity", "waitTime", "ageGroup", "mentalHealth"]) {
+          if (aiModel[trait][c[trait]]) {
+            score += aiModel[trait][c[trait]];
+          }
+        }
+        if (score > highestScore) {
+          highestScore = score;
+          bestFitIndex = i;
+        }
+      });
+
+      selected = [bestFitIndex];
+      document.querySelectorAll(".card").forEach((c, i) => {
+        c.classList.toggle("selected", i === bestFitIndex);
+      });
+    }
+
+    function showUserSummary() {
+      let summary = selected.map(index => {
+        const c = candidates[index];
+        return `<li><strong>${c.name}</strong>: Severity=${c.severity}, Wait Time=${c.waitTime}, Age Group=${c.ageGroup}, Mental Health=${c.mentalHealth}</li>`;
+      }).join("");
+      document.getElementById("feedback").innerHTML = `
+        <h3>Your Selection Summary</h3>
+        <ul>${summary}</ul>
+      `;
+    }
+
+    function submitSelection() {
+      if (round === 1 && (selected.length < 1 || selected.length > 3)) {
+        alert("Please select between 1 and 3 patients.");
+        return;
+      }
+
+      if (round === 1) {
+        trainModel();
+        biasScore = Math.max(...selected.map(i => candidates[i].biasScore));
+        document.getElementById("submitBtn").innerText = "Let AI Decide";
+        document.getElementById("roundTitle").innerText = "Round 2: AI Decides";
+        showUserSummary();
+        round++;
+        selected = [];
+        renderCandidates();
+      } else {
+        aiSelectCandidate();
+        biasScore = candidates[selected[0]].biasScore;
+        document.getElementById("submitBtn").style.display = "none";
+        document.getElementById("restartBtn").style.display = "inline-block";
+        showFinalReport();
+      }
+
+      document.getElementById("biasScore").innerText = `Bias Score: ${biasScore}`;
+      document.getElementById("biasFill").style.width = `${biasScore}%`;
+
+      let feedback = biasScore > 20
+        ? "⚠️ Your model prioritized urgency and stability. This may reflect bias in triage decisions."
+        : "✅ Your model shows balanced prioritization. Lower bias detected.";
+
+      document.getElementById("feedback").innerHTML += `<p>${feedback}</p>`;
+    }
+
+    function showFinalReport() {
+      const traitsLearned = Object.entries(aiModel).map(([trait, values]) => {
+        const top = Object.entries(values).sort((a, b) => b[1] - a[1])[0];
+        return `<li><strong>${trait}</strong>: favored <em>${top[0]}</em></li>`;
+      }).join("");
+
+      const chosen = candidates[selected[0]];
+
+      document.getElementById("report").innerHTML = `
+        <h3>Final Report</h3>
+        <p>Your AI model learned from your choices and began favoring:</p>
+        <ul>${traitsLearned}</ul>
+        <p>It selected <strong>${chosen.name}</strong> based on matching traits.</p>
+        <p>This shows how even simple decisions can shape algorithmic behavior. You trained the system — now imagine it triaging thousands.</p>
+      `;
+    }
+
+    function restartGame() {
+      round = 1;
+      selected = [];
+      biasScore = 0;
+      trainingData = [];
+      aiModel = {};
+      document.getElementById("biasScore").innerText = "Bias Score: 0";
+      document.getElementById("biasFill").style.width = "0%";
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("report").innerHTML = "";
+      document.getElementById("submitBtn").innerText = "Submit Selection";
+      document.getElementById("submitBtn").style.display = "inline-block";
+      document.getElementById("restartBtn").style.display = "none";
+      document.getElementById("roundTitle").innerText = "Round 1: You Decide";
+      renderCandidates();
+    }
+
+    renderCandidates();
+  </script>
+
+</body>
+</html>
