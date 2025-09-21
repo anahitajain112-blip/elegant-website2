@@ -143,13 +143,14 @@
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-          <img src="${c.image}" alt="${c.name}" width="70" height="70"/>
-          <strong>${c.name}</strong><br>
-          💉 Severity: ${c.severity}<br>
-          ⏱️ Wait Time: ${c.waitTime}<br>
-          👵 Age Group: ${c.ageGroup}<br>
-          🧠 Mental Health: ${c.mentalHealth}
-        `;
+  <img src="${c.image}" alt="${c.name}" class="avatar" />
+  <strong>${c.name}</strong><br>
+  💉 Severity: ${c.severity}<br>
+  ⏱️ Wait Time: ${c.waitTime}<br>
+  👵 Age Group: ${c.ageGroup}<br>
+  🧠 Mental Health: ${c.mentalHealth}<br>
+  <em>${c.note}</em>
+`;
         card.onclick = () => toggleSelect(i, card);
         grid.appendChild(card);
       });
