@@ -35,14 +35,54 @@
 
   <script>
     const candidates = [
-      { name: "Meera", gender: "Female", location: "Rural", education: "Community College", bias: 5, image: "candidate2.png" },
-      { name: "Anjali", gender: "Female", location: "Urban", education: "MIT", bias: 30, image: "candidate3.png" }
+      {
+        name: "Meera",
+        gender: "Female",
+        race: "South Asian",
+        location: "Rural",
+        education: "Community College",
+        zipCode: "560001",
+        image: "candidate1.png",
+        biasScore: 5
+      },
+      {
+        name: "Anjali",
+        gender: "Female",
+        race: "South Asian",
+        location: "Urban",
+        education: "MIT",
+        zipCode: "10001",
+        image: "candidate2.png",
+        biasScore: 30
+      },
+      {
+        name: "Rahul",
+        gender: "Male",
+        race: "South Asian",
+        location: "Suburban",
+        education: "State University",
+        zipCode: "400001",
+        image: "candidate3.png",
+        biasScore: 15
+      },
+      {
+        name: "Aisha",
+        gender: "Female",
+        race: "Black",
+        location: "Urban",
+        education: "Online Bootcamp",
+        zipCode: "30303",
+        image: "candidate4.png",
+        biasScore: 25
+      }
     ];
 
     let selected = [];
     let biasScore = 0;
     let firstScore = 0;
     let round = 1;
+    let trainingData = [];
+    let aiModel = {};
 
     const grid = document.getElementById("candidateGrid");
 
@@ -53,7 +93,7 @@
         card.className = "card";
         card.innerHTML = `
           <img src="assets/${c.image}" alt="${c.name}" class="avatar" />
-          <strong>${c.name}</strong><br>${c.gender}<br>${c.location}<br>${c.education}
+          <strong>${c.name}</strong><br>${c.gender}<br>${c.race}<br>${c.location}<br>${c.education}
         `;
         card.onclick = () => toggleSelect(i, card);
         grid.appendChild(card);
@@ -66,41 +106,83 @@
       card.classList.add("selected");
     }
 
+    function trainModel() {
+      const candidate = candidates[selected[0]];
+      trainingData.push(candidate);
+      for (let trait of ["education", "location", "gender", "race", "zipCode"]) {
+        const value = candidate[trait];
+        aiModel[trait] = aiModel[trait] || {};
+        aiModel[trait][value] = (aiModel[trait][value] || 0) + 1;
+      }
+    }
+
+    function aiSelectCandidate() {
+      let bestFitIndex = 0;
+      let highestScore = -Infinity;
+
+      candidates.forEach((c, i) => {
+        let score = 0;
+        for (let trait in aiModel) {
+          if (aiModel[trait][c[trait]]) {
+            score += aiModel[trait][c[trait]];
+          }
+        }
+        if (score > highestScore) {
+          highestScore = score;
+          bestFitIndex = i;
+        }
+      });
+
+      selected = [bestFitIndex];
+      document.querySelectorAll(".card").forEach((c, i) => {
+        c.classList.toggle("selected", i === bestFitIndex);
+      });
+    }
+
     function submitSelection() {
-      if (selected.length !== 1) {
+      if (round === 1 && selected.length !== 1) {
         alert("Please select exactly 1 candidate.");
         return;
       }
 
-      biasScore = candidates[selected[0]].bias;
-      document.getElementById("biasScore").innerText = `Bias Score: ${biasScore}`;
-      document.getElementById("biasFill").style.width = `${biasScore}%`;
-
-      let feedback = "";
-      if (biasScore > 20) {
-        feedback = "⚠️ Your model favored elite education and urban background. This may reflect socioeconomic bias.";
-      } else {
-        feedback = "✅ Your model shows inclusive decision-making. Lower bias detected.";
-      }
-
-      document.getElementById("feedback").innerText = feedback;
-
       if (round === 1) {
+        trainModel();
+        biasScore = candidates[selected[0]].biasScore;
         firstScore = biasScore;
-        document.getElementById("submitBtn").innerText = "Try Again";
+        document.getElementById("submitBtn").innerText = "Let AI Decide";
         round++;
         selected = [];
         renderCandidates();
       } else {
+        aiSelectCandidate();
+        biasScore = candidates[selected[0]].biasScore;
         document.getElementById("submitBtn").style.display = "none";
         document.getElementById("restartBtn").style.display = "inline-block";
-        document.getElementById("report").innerHTML = `
-          <h3>Final Report</h3>
-          <p>In Round 1, your model leaned toward ${firstScore > 20 ? "elite, urban traits" : "inclusive traits"}.</p>
-          <p>In Round 2, your selection leaned toward ${biasScore > 20 ? "elite, urban traits" : "inclusive traits"}.</p>
-          <p>This shows how awareness can reduce bias in AI systems. <strong>BiasDecoded</strong> helps you reflect on how data-driven decisions can still carry human values.</p>
-        `;
+        showFinalReport();
       }
+
+      document.getElementById("biasScore").innerText = `Bias Score: ${biasScore}`;
+      document.getElementById("biasFill").style.width = `${biasScore}%`;
+
+      let feedback = biasScore > 20
+        ? "⚠️ Your model favored elite traits. This may reflect systemic bias."
+        : "✅ Your model shows inclusive decision-making. Lower bias detected.";
+
+      document.getElementById("feedback").innerText = feedback;
+    }
+
+    function showFinalReport() {
+      const traitsLearned = Object.entries(aiModel).map(([trait, values]) => {
+        const top = Object.entries(values).sort((a, b) => b[1] - a[1])[0];
+        return `<li><strong>${trait}</strong>: favored <em>${top[0]}</em></li>`;
+      }).join("");
+
+      document.getElementById("report").innerHTML = `
+        <h3>Final Report</h3>
+        <p>Your AI model learned from your choices and began favoring:</p>
+        <ul>${traitsLearned}</ul>
+        <p>This shows how even small decisions can shape algorithmic bias. You trained the system — now imagine it hiring thousands.</p>
+      `;
     }
 
     function restartGame() {
@@ -108,6 +190,8 @@
       selected = [];
       biasScore = 0;
       firstScore = 0;
+      trainingData = [];
+      aiModel = {};
       document.getElementById("biasScore").innerText = "Bias Score: 0";
       document.getElementById("biasFill").style.width = "0%";
       document.getElementById("feedback").innerText = "";
