@@ -14,7 +14,9 @@
     <h1>BiasDecoded: Who Gets the Job?</h1>
     <nav>
       <a href="index.html">Home</a>
-      <a href="simulator-game.html">Simulator</a>
+      <a href="simulator-job.html">Job Simulator</a>
+      <a href="simulator-medical.html">Medical Simulator</a>
+      <a href="simulator-loan.html">Loan Simulator</a>
       <a href="about.html">About</a>
     </nav>
   </header>
@@ -40,6 +42,10 @@
       <div id="report"></div>
     </section>
   </main>
+
+  <footer>
+    <p>© 2025 BiasDecoded. All rights reserved.</p>
+  </footer>
 
   <script>
     const candidates = [
@@ -138,7 +144,7 @@
       let highestScore = -Infinity;
 
       candidates.forEach((c, i) => {
-        if (selected.includes(i)) return; // avoid re-selecting user's picks
+        if (selected.includes(i)) return;
         let score = 0;
         for (let trait of ["skill", "experience", "communication", "ambition"]) {
           if (aiModel[trait][c[trait]]) {
@@ -238,5 +244,4 @@
     renderCandidates();
   </script>
 
-</body>
-</html>
+</
