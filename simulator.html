@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BiasDecoded Simulator</title>
+  <title>BiasDecoded Ethical AI Simulator</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -47,19 +47,15 @@
       padding: 40px 20px;
     }
     .scenario {
-      display: flex;
-      gap: 30px;
-      flex-wrap: wrap;
-      margin-bottom: 30px;
-    }
-    .option {
-      flex: 1;
-      min-width: 250px;
       background: #fff;
       border: 1px solid #ddd;
       border-radius: 8px;
       padding: 20px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+    }
+    .option {
+      margin-top: 20px;
     }
     button {
       background-color: #2E3A59;
@@ -74,7 +70,7 @@
     button:hover {
       background-color: #FF6B6B;
     }
-    .feedback {
+    .feedback, .summary {
       margin-top: 20px;
       background: #FFF8E1;
       border-left: 4px solid #FFD166;
@@ -97,16 +93,9 @@
     }
     .meter-fill {
       height: 100%;
-      width: 50%;
+      width: 0%;
       background-color: #FFD166;
       transition: width 0.5s ease;
-    }
-    .summary {
-      background-color: #E8F5E9;
-      border-left: 4px solid #4CAF50;
-      padding: 20px;
-      margin-top: 40px;
-      border-radius: 6px;
     }
   </style>
 </head>
@@ -114,7 +103,7 @@
 
   <header>
     <h1>BiasDecoded</h1>
-    <p class="tagline">Make decisions. Watch bias unfold.</p>
+    <p class="tagline">You're building an AI hiring model. Every choice matters.</p>
     <nav>
       <a href="index.html">Home</a>
       <a href="blog.html">Blog</a>
@@ -133,154 +122,81 @@
         </div>
       </div>
 
-      <!-- Scenario 1: Resume Screening -->
-      <h2>Scenario 1: Resume Screening</h2>
-      <p>You're building a hiring algorithm. Choose who to prioritize:</p>
       <div class="scenario">
-        <div class="option">
-          <h3>Candidate A</h3>
-          <ul>
-            <li>Name: Ayesha Khan</li>
-            <li>Education: Coding Bootcamp</li>
-            <li>Experience: Freelance developer, built 3 apps</li>
-          </ul>
-          <button onclick="select('A', 'resume')">Select Ayesha</button>
-        </div>
-        <div class="option">
-          <h3>Candidate B</h3>
-          <ul>
-            <li>Name: Arjun Patel</li>
-            <li>Education: CS Degree from IIT</li>
-            <li>Experience: 1 internship at Infosys</li>
-          </ul>
-          <button onclick="select('B', 'resume')">Select Arjun</button>
-        </div>
-      </div>
-      <div id="feedback1" class="feedback"></div>
+        <h2>Scenario: Resume Screening</h2>
+        <p>You’re training a hiring model. You must choose which dataset to prioritize:</p>
 
-      <!-- Scenario 2: Loan Approval -->
-      <h2>Scenario 2: Loan Approval</h2>
-      <p>You're reviewing loan applications. Choose who to approve:</p>
-      <div class="scenario">
         <div class="option">
-          <h3>Applicant A</h3>
+          <h3>Option A: Elite Dataset</h3>
           <ul>
-            <li>Name: Neha Sharma</li>
-            <li>Zip Code: 110001 (Urban)</li>
-            <li>Credit Score: 720</li>
+            <li>Resumes from top universities (IIT, Stanford, MIT)</li>
+            <li>High GPA, traditional experience</li>
+            <li>Low diversity (mostly male, urban, upper-class)</li>
           </ul>
-          <button onclick="select('A', 'loan')">Approve Neha</button>
+          <button onclick="select('A')">Use Elite Dataset</button>
         </div>
-        <div class="option">
-          <h3>Applicant B</h3>
-          <ul>
-            <li>Name: Ramesh Yadav</li>
-            <li>Zip Code: 110078 (Low-income area)</li>
-            <li>Credit Score: 720</li>
-          </ul>
-          <button onclick="select('B', 'loan')">Approve Ramesh</button>
-        </div>
-      </div>
-      <div id="feedback2" class="feedback"></div>
 
-      <!-- Scenario 3: Voice Assistant -->
-      <h2>Scenario 3: Voice Assistant Training</h2>
-      <p>You're training a voice assistant. Choose which voice sample to prioritize:</p>
-      <div class="scenario">
         <div class="option">
-          <h3>Sample A</h3>
+          <h3>Option B: Inclusive Dataset</h3>
           <ul>
-            <li>Speaker: Fluent English, American accent</li>
-            <li>Clarity: High</li>
+            <li>Resumes from bootcamps, community colleges, freelancers</li>
+            <li>Mixed experience, non-linear paths</li>
+            <li>High diversity (gender, geography, background)</li>
           </ul>
-          <button onclick="select('A', 'voice')">Select Sample A</button>
+          <button onclick="select('B')">Use Inclusive Dataset</button>
         </div>
-        <div class="option">
-          <h3>Sample B</h3>
-          <ul>
-            <li>Speaker: Indian English, regional accent</li>
-            <li>Clarity: Moderate</li>
-          </ul>
-          <button onclick="select('B', 'voice')">Select Sample B</button>
-        </div>
-      </div>
-      <div id="feedback3" class="feedback"></div>
 
-      <!-- Summary -->
-      <div id="summary" class="summary" style="display:none;"></div>
+        <div id="feedback" class="feedback"></div>
+        <div id="summary" class="summary" style="display:none;"></div>
+      </div>
 
     </section>
   </main>
 
- <script>
-  let biasScore = 0;
-  let decisions = [];
+  <script>
+    let biasScore = 0;
+    let decisionMade = false;
 
-  function updateBiasMeter() {
-    const fill = document.getElementById("biasLevel");
-    const percent = Math.min(Math.max(biasScore, 0), 100);
-    fill.style.width = percent + "%";
-    if (percent < 40) fill.style.backgroundColor = "#FF6B6B";
-    else if (percent < 70) fill.style.backgroundColor = "#FFD166";
-    else fill.style.backgroundColor = "#4CAF50";
-  }
-
-  function select(choice, scenario) {
-    let feedback = "";
-    let impact = 0;
-
-    if (scenario === "resume") {
-      if (choice === "A") {
-        feedback = "✅ You selected Ayesha. This promotes non-traditional backgrounds and real-world experience.";
-        impact = +30;
-      } else {
-        feedback = "⚠️ You selected Arjun. Favoring elite degrees can exclude capable candidates from diverse paths.";
-        impact = -10;
-      }
-      document.getElementById("feedback1").innerHTML = feedback;
+    function updateBiasMeter() {
+      const fill = document.getElementById("biasLevel");
+      const percent = Math.min(Math.max(biasScore, 0), 100);
+      fill.style.width = percent + "%";
+      if (percent < 40) fill.style.backgroundColor = "#FF6B6B";
+      else if (percent < 70) fill.style.backgroundColor = "#FFD166";
+      else fill.style.backgroundColor = "#4CAF50";
     }
 
-    if (scenario === "loan") {
+    function select(choice) {
+      if (decisionMade) return;
+
+      let feedback = "";
       if (choice === "A") {
-        feedback = "⚠️ You approved Neha. Urban applicants are often favored by biased models.";
-        impact = -10;
+        biasScore = 30;
+        feedback = "⚠️ You chose the elite dataset. Your model may perform well on traditional candidates but risks excluding diverse talent.";
       } else {
-        feedback = "✅ You approved Ramesh. This challenges geographic profiling and promotes fairness.";
-        impact = +30;
+        biasScore = 80;
+        feedback = "✅ You chose the inclusive dataset. Your model may require more tuning but promotes fairness and broader opportunity.";
       }
-      document.getElementById("feedback2").innerHTML = feedback;
-    }
 
-    if (scenario === "voice") {
-      if (choice === "A") {
-        feedback = "⚠️ You selected Sample A. Prioritizing Western accents can marginalize global users.";
-        impact = -10;
-      } else {
-        feedback = "✅ You selected Sample B. Supporting regional accents improves accessibility and inclusion.";
-        impact = +30;
-      }
-      document.getElementById("feedback3").innerHTML = feedback;
-    }
+      document.getElementById("feedback").innerText = feedback;
+      updateBiasMeter();
+      decisionMade = true;
 
-    biasScore += impact;
-    decisions.push(scenario);
-    updateBiasMeter();
-
-    if (decisions.length === 3) {
       const summary = document.getElementById("summary");
       summary.style.display = "block";
       summary.innerHTML = `
         <h3>Simulation Complete</h3>
-        <p>Your final Bias Score is <strong>${biasScore}</strong>.</p>
+        <p>Your Bias Score: <strong>${biasScore}</strong></p>
         <p>${
           biasScore < 40
-            ? "⚠️ Your decisions leaned toward biased outcomes."
+            ? "Your model is likely to reinforce existing inequalities."
             : biasScore < 70
-            ? "🟡 Your decisions were mixed—some fair, some biased."
-            : "✅ Your decisions promoted fairness and inclusion."
+            ? "Your model balances performance and fairness—but may still need auditing."
+            : "Your model promotes inclusive hiring and ethical AI practices."
         }</p>
       `;
     }
-  }
-</script>
-          feedback = "
+  </script>
+
+</body>
+</html>
