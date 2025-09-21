@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiasDecoded: Who Gets the Job?</title>
+  <style>
+    body {
+      background-color: #1e1e2f;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .candidate-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .card {
+      background-color: #2e2e3e;
+      border: 2px solid #444;
+      border-radius: 8px;
+      padding: 15px;
+      width: 150px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      border-color: #ffd166;
+    }
+    .selected {
+      border-color: #4caf50;
+      background-color: #3e3e5e;
+    }
+    #feedback, #report {
+      margin-top: 30px;
+      font-size: 16px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #biasMeter {
+      margin-top: 20px;
+      width: 300px;
+      height: 20px;
+      background-color: #555;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #biasFill {
+      height: 100%;
+      width: 0%;
+      background-color: #ffd166;
+      transition: width 0.5s ease;
+    }
+    #biasScore {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #ff5e5e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff9e9e;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>BiasDecoded: Who Gets the Job?</h1>
+  <p>Select 3 candidates to shortlist for the job.</p>
+
+  <div class="candidate-grid" id="candidateGrid"></div>
+
+  <div id="biasMeter">
+    <div id="biasFill"></div>
+  </div>
+  <div id="biasScore">Bias Score: 0</div>
+
+  <button onclick="submitSelection()">Submit Selection</button>
+
+  <div id="feedback"></div>
+  <div id="report"></div>
+
+  <script>
+    const candidates = [
+      { name: "Aarav", gender: "Male", location: "Urban", education: "IIT", bias: 30 },
+      { name: "Meera", gender: "Female", location: "Rural", education: "Community College", bias: 5 },
+      { name: "Ravi", gender: "Male", location: "Urban", education: "Private University", bias: 25 },
+      { name: "Fatima", gender: "Female", location: "Urban", education: "Bootcamp", bias: 10 },
+      { name: "Dev", gender: "Male", location: "Rural", education: "Freelancer", bias: 15 },
+      { name: "Anjali", gender: "Female", location: "Urban", education: "MIT", bias: 20 }
+    ];
+
+    let selected = [];
+    let biasScore = 0;
+    let round = 1;
+
+    const grid = document.getElementById("candidateGrid");
+
+    candidates.forEach((c, i) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<strong>${c.name}</strong><br>${c.gender}<br>${c.location}<br>${c.education}`;
+      card.onclick = () => toggleSelect(i, card);
+      grid.appendChild(card);
+    });
+
+    function toggleSelect(index, card) {
+      if (selected.includes(index)) {
+        selected = selected.filter(i => i !== index);
+        card.classList.remove("selected");
+      } else {
+        if (selected.length < 3) {
+          selected.push(index);
+          card.classList.add("selected");
+        }
+      }
+    }
+
+    function submitSelection() {
+      if (selected.length !== 3) {
+        alert("Please select exactly 3 candidates.");
+        return;
+      }
+
+      biasScore = selected.reduce((sum, i) => sum + candidates[i].bias, 0);
+      document.getElementById("biasScore").innerText = `Bias Score: ${biasScore}`;
+      document.getElementById("biasFill").style.width = `${biasScore}%`;
+
+      let feedback = "";
+      if (biasScore > 60) {
+        feedback = "⚠️ Your model shows high bias. Mostly urban, male, elite-educated candidates were selected.";
+      } else if (biasScore > 30) {
+        feedback = "🟡 Moderate bias detected. Some diversity present, but still skewed.";
+      } else {
+        feedback = "✅ Low bias. Your selections reflect a fair and inclusive model.";
+      }
+
+      document.getElementById("feedback").innerText = feedback;
+
+      if (round === 1) {
+        document.querySelector("button").innerText = "Try Again";
+        round++;
+      } else {
+        document.querySelector("button").style.display = "none";
+        document.getElementById("report").innerHTML = `
+          <h3>Final Report</h3>
+          <p>Your first selection had a bias score of ${biasScore}. You were given a chance to rethink your choices.</p>
+          <p>This shows how AI models can reflect human bias based on data and decisions. Fairness requires awareness and intervention.</p>
+        `;
+      }
+
+      selected = [];
+      document.querySelectorAll(".card").forEach(card => card.classList.remove("selected"));
+    }
+  </script>
+
+</body>
+</html>
