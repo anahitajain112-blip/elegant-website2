@@ -7,6 +7,48 @@
   <title>BiasDecoded: Who Gets the Job?</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+    <style>
+   .candidate-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+    .card {
+      border: 2px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 220px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .card.selected {
+      border-color: #0077ff;
+      background-color: #eaf3ff;
+    }
+    .card img {
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+    #biasMeter {
+      width: 100%;
+      height: 20px;
+      background: #eee;
+      margin: 20px 0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    #biasFill {
+      height: 100%;
+      width: 0%;
+      background: #ff6666;
+      transition: width 0.5s ease;
+    }
+  </style>
 </head>
 <body>
 
