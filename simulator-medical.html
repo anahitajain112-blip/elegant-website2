@@ -91,43 +91,47 @@
 
   <script>
     const candidates = [
-  {
-    name: "Patient A",
-    severity: "Critical",
-    waitTime: "Long",
-    ageGroup: "Elderly",
-    mentalHealth: "Stable",
-    image: "assets/patient1.png",
-    biasScore: 30
-  },
-  {
-    name: "Patient B",
-    severity: "Moderate",
-    waitTime: "Short",
-    ageGroup: "Adult",
-    mentalHealth: "At Risk",
-    image: "assets/patient2.png",
-    biasScore: 15
-  },
-  {
-    name: "Patient C",
-    severity: "Mild",
-    waitTime: "Medium",
-    ageGroup: "Child",
-    mentalHealth: "Stable",
-    image: "assets/patient3.png",
-    biasScore: 10
-  },
-  {
-    name: "Patient D",
-    severity: "Critical",
-    waitTime: "Short",
-    ageGroup: "Adult",
-    mentalHealth: "Unknown",
-    image: "assets/patient4.png",
-    biasScore: 25
-  }
-];
+      {
+        name: "Patient A",
+        severity: "Critical",
+        waitTime: "Long",
+        ageGroup: "Elderly",
+        mentalHealth: "Stable",
+        image: "assets/patient1.png",
+        biasScore: 30,
+        note: "Has a chronic condition requiring immediate attention."
+      },
+      {
+        name: "Patient B",
+        severity: "Moderate",
+        waitTime: "Short",
+        ageGroup: "Adult",
+        mentalHealth: "At Risk",
+        image: "assets/patient2.png",
+        biasScore: 15,
+        note: "Recently experienced trauma; may need psychological support."
+      },
+      {
+        name: "Patient C",
+        severity: "Mild",
+        waitTime: "Medium",
+        ageGroup: "Child",
+        mentalHealth: "Stable",
+        image: "assets/patient3.png",
+        biasScore: 10,
+        note: "Minor injuries; stable vitals."
+      },
+      {
+        name: "Patient D",
+        severity: "Critical",
+        waitTime: "Short",
+        ageGroup: "Adult",
+        mentalHealth: "Unknown",
+        image: "assets/patient4.png",
+        biasScore: 25,
+        note: "Critical condition; mental health status unknown."
+      }
+    ];
 
     let selected = [];
     let biasScore = 0;
@@ -143,14 +147,14 @@
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-  <img src="${c.image}" alt="${c.name}" class="avatar" />
-  <strong>${c.name}</strong><br>
-  💉 Severity: ${c.severity}<br>
-  ⏱️ Wait Time: ${c.waitTime}<br>
-  👵 Age Group: ${c.ageGroup}<br>
-  🧠 Mental Health: ${c.mentalHealth}<br>
-  <em>${c.note}</em>
-`;
+          <img src="${c.image}" alt="${c.name}" class="avatar" />
+          <strong>${c.name}</strong><br>
+          💉 Severity: ${c.severity}<br>
+          ⏱️ Wait Time: ${c.waitTime}<br>
+          👵 Age Group: ${c.ageGroup}<br>
+          🧠 Mental Health: ${c.mentalHealth}<br>
+          <em>${c.note}</em>
+        `;
         card.onclick = () => toggleSelect(i, card);
         grid.appendChild(card);
       });
@@ -285,7 +289,6 @@
       renderCandidates();
     }
 
-    // Render first round
     renderCandidates();
   </script>
 </body>
