@@ -8,35 +8,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f9f9f9;
-      color: #333;
-    }
-    header, footer {
-      background: #0077ff;
-      color: #fff;
-      padding: 15px 20px;
-      text-align: center;
-    }
-    nav a {
-      color: #fff;
-      margin: 0 10px;
-      text-decoration: none;
-    }
-    .content {
-      max-width: 900px;
-      margin: 20px auto;
-      padding: 0 20px;
-    }
     .candidate-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 15px;
       margin-top: 20px;
-      justify-content: center;
     }
     .card {
       border: 2px solid #ccc;
@@ -46,8 +22,6 @@
       width: 180px;
       text-align: center;
       transition: 0.3s;
-      background: #fff;
-      position: relative;
     }
     .card:hover {
       transform: scale(1.05);
@@ -59,65 +33,20 @@
     .card img {
       border-radius: 6px;
       margin-bottom: 8px;
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-    }
-    .trait-tooltip {
-      border-bottom: 1px dotted #333;
-      cursor: help;
     }
     #biasMeter {
       width: 100%;
-      height: 25px;
+      height: 20px;
       background: #eee;
       margin: 20px 0;
-      border-radius: 12px;
+      border-radius: 10px;
       overflow: hidden;
-      position: relative;
     }
     #biasFill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(to right, #66ff66, #ffcc00, #ff6666);
+      background: #ff6666;
       transition: width 0.5s ease;
-    }
-    #biasLabel {
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      top: 0;
-      line-height: 25px;
-      font-weight: bold;
-      color: #333;
-    }
-    .button-group {
-      margin: 20px 0;
-      text-align: center;
-    }
-    button {
-      padding: 10px 20px;
-      margin: 5px;
-      border: none;
-      border-radius: 6px;
-      background: #0077ff;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background: #005bb5;
-    }
-    @media (max-width: 600px) {
-      .card {
-        width: 100%;
-      }
-    }
-    #selectionCount {
-      font-weight: bold;
-      margin-top: 10px;
-      text-align: center;
     }
   </style>
 </head>
@@ -140,17 +69,15 @@
       <p>Select 2–3 patients to prioritize for treatment.</p>
 
       <div class="candidate-grid" id="candidateGrid"></div>
-      <div id="selectionCount">Selected 0 of 3 patients</div>
 
       <div id="biasMeter">
         <div id="biasFill"></div>
-        <div id="biasLabel">Bias Score: 0</div>
       </div>
+      <div id="biasScore">Bias Score: 0</div>
 
       <div class="button-group">
         <button onclick="submitSelection()" id="submitBtn">Submit Selection</button>
         <button onclick="restartGame()" id="restartBtn" style="display:none;">Play Again</button>
-        <button onclick="redoRound1()" id="redoBtn" style="display:none;">Redo Round 1</button>
       </div>
 
       <div id="feedback"></div>
@@ -172,7 +99,7 @@
         mentalHealth: "Stable",
         image: "assets/patient1.png",
         biasScore: 30,
-        note: "Needs urgent care due to critical condition."
+        note: "Has a chronic condition requiring immediate attention."
       },
       {
         name: "Patient B",
@@ -182,7 +109,7 @@
         mentalHealth: "At Risk",
         image: "assets/patient2.png",
         biasScore: 15,
-        note: "Moderate condition, can wait a little."
+        note: "Recently experienced trauma; may need psychological support."
       },
       {
         name: "Patient C",
@@ -192,7 +119,7 @@
         mentalHealth: "Stable",
         image: "assets/patient3.png",
         biasScore: 10,
-        note: "Mild symptoms, child patient."
+        note: "Minor injuries; stable vitals."
       },
       {
         name: "Patient D",
@@ -202,7 +129,7 @@
         mentalHealth: "Unknown",
         image: "assets/patient4.png",
         biasScore: 25,
-        note: "Critical patient, unknown mental health status."
+        note: "Critical condition; mental health status unknown."
       }
     ];
 
@@ -213,29 +140,24 @@
     let aiModel = {};
 
     const grid = document.getElementById("candidateGrid");
-    const selectionCount = document.getElementById("selectionCount");
-    const biasLabel = document.getElementById("biasLabel");
 
     function renderCandidates() {
       grid.innerHTML = "";
       candidates.forEach((c, i) => {
         const card = document.createElement("div");
         card.className = "card";
-        card.tabIndex = 0;
         card.innerHTML = `
           <img src="${c.image}" alt="${c.name}" class="avatar" />
           <strong>${c.name}</strong><br>
-          💉 <span class="trait-tooltip" title="Condition severity">Severity: ${c.severity}</span><br>
-          ⏱️ <span class="trait-tooltip" title="Estimated wait time">Wait Time: ${c.waitTime}</span><br>
-          👵 <span class="trait-tooltip" title="Age group of patient">Age Group: ${c.ageGroup}</span><br>
-          🧠 <span class="trait-tooltip" title="Mental health status">Mental Health: ${c.mentalHealth}</span><br>
+          💉 Severity: ${c.severity}<br>
+          ⏱️ Wait Time: ${c.waitTime}<br>
+          👵 Age Group: ${c.ageGroup}<br>
+          🧠 Mental Health: ${c.mentalHealth}<br>
           <em>${c.note}</em>
         `;
         card.onclick = () => toggleSelect(i, card);
-        card.onkeypress = (e) => { if(e.key === 'Enter') toggleSelect(i, card); };
         grid.appendChild(card);
       });
-      updateSelectionCount();
     }
 
     function toggleSelect(index, card) {
@@ -250,11 +172,6 @@
           alert("You can select up to 3 patients.");
         }
       }
-      updateSelectionCount();
-    }
-
-    function updateSelectionCount() {
-      selectionCount.innerText = `Selected ${selected.length} of 3 patients`;
     }
 
     function trainModel() {
@@ -274,7 +191,6 @@
       let highestScore = -Infinity;
 
       candidates.forEach((c, i) => {
-        if (selected.includes(i)) return;
         let score = 0;
         for (let trait of ["severity", "waitTime", "ageGroup", "mentalHealth"]) {
           if (aiModel[trait] && aiModel[trait][c[trait]]) {
@@ -291,7 +207,89 @@
       document.querySelectorAll(".card").forEach((c, i) => {
         c.classList.toggle("selected", i === bestFitIndex);
       });
+    }
 
-      // Show reasoning
-      const chosen = candidates[bestFitIndex];
-      document.getElementById("feedback").innerHTML = `<p>
+    function showUserSummary() {
+      let summary = selected.map(index => {
+        const c = candidates[index];
+        return `<li><strong>${c.name}</strong>: Severity=${c.severity}, Wait Time=${c.waitTime}, Age Group=${c.ageGroup}, Mental Health=${c.mentalHealth}</li>`;
+      }).join("");
+      document.getElementById("feedback").innerHTML = `
+        <h3>Your Selection Summary</h3>
+        <ul>${summary}</ul>
+      `;
+    }
+
+    function submitSelection() {
+      if (round === 1 && (selected.length < 1 || selected.length > 3)) {
+        alert("Please select between 1 and 3 patients.");
+        return;
+      }
+
+      if (round === 1) {
+        trainModel();
+        biasScore = Math.max(...selected.map(i => candidates[i].biasScore));
+        document.getElementById("submitBtn").innerText = "Let AI Decide";
+        document.getElementById("roundTitle").innerText = "Round 2: AI Decides";
+        showUserSummary();
+        round++;
+        selected = [];
+        renderCandidates();
+      } else {
+        aiSelectCandidate();
+        biasScore = candidates[selected[0]].biasScore;
+        document.getElementById("submitBtn").style.display = "none";
+        document.getElementById("restartBtn").style.display = "inline-block";
+        showFinalReport();
+      }
+
+      document.getElementById("biasScore").innerText = `Bias Score: ${biasScore}`;
+      document.getElementById("biasFill").style.width = `${biasScore}%`;
+
+      let feedback = biasScore > 20
+        ? "⚠️ Your model prioritized urgency and stability. This may reflect bias in triage decisions."
+        : "✅ Your model shows balanced prioritization. Lower bias detected.";
+
+      if (!document.getElementById("feedback").innerHTML.includes(feedback)) {
+        document.getElementById("feedback").innerHTML += `<p>${feedback}</p>`;
+      }
+    }
+
+    function showFinalReport() {
+      const traitsLearned = Object.entries(aiModel).map(([trait, values]) => {
+        const top = Object.entries(values).sort((a, b) => b[1] - a[1])[0];
+        return `<li><strong>${trait}</strong>: favored <em>${top[0]}</em></li>`;
+      }).join("");
+
+      const chosen = candidates[selected[0]];
+
+      document.getElementById("report").innerHTML = `
+        <h3>Final Report</h3>
+        <p>Your AI model learned from your choices and began favoring:</p>
+        <ul>${traitsLearned}</ul>
+        <p>It selected <strong>${chosen.name}</strong> based on matching traits.</p>
+        <p>This shows how even simple decisions can shape algorithmic behavior. You trained the system — now imagine it triaging thousands.</p>
+      `;
+    }
+
+    function restartGame() {
+      round = 1;
+      selected = [];
+      biasScore = 0;
+      trainingData = [];
+      aiModel = {};
+      document.getElementById("biasScore").innerText = "Bias Score: 0";
+      document.getElementById("biasFill").style.width = "0%";
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("report").innerHTML = "";
+      document.getElementById("submitBtn").innerText = "Submit Selection";
+      document.getElementById("submitBtn").style.display = "inline-block";
+      document.getElementById("restartBtn").style.display = "none";
+      document.getElementById("roundTitle").innerText = "Round 1: You Decide";
+      renderCandidates();
+    }
+
+    renderCandidates();
+  </script>
+</body>
+</html>
