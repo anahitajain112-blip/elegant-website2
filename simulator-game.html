@@ -21,7 +21,8 @@
 
   <main>
     <section class="content">
-      <p>Select 1 candidate to shortlist for the job.</p>
+      <h2 id="roundTitle">Round 1: You Decide</h2>
+      <p>Select 2–3 candidates to shortlist for the job.</p>
 
       <div class="candidate-grid" id="candidateGrid"></div>
 
@@ -30,8 +31,10 @@
       </div>
       <div id="biasScore">Bias Score: 0</div>
 
-      <button onclick="submitSelection()" id="submitBtn">Submit Selection</button>
-      <button onclick="restartGame()" id="restartBtn" style="display:none;">Play Again</button>
+      <div class="button-group">
+        <button onclick="submitSelection()" id="submitBtn" aria-label="Submit your candidate selection">Submit Selection</button>
+        <button onclick="restartGame()" id="restartBtn" style="display:none;" aria-label="Restart the simulator">Play Again</button>
+      </div>
 
       <div id="feedback"></div>
       <div id="report"></div>
@@ -105,26 +108,37 @@
     }
 
     function toggleSelect(index, card) {
-      selected = [index];
-      document.querySelectorAll(".card").forEach(c => c.classList.remove("selected"));
-      card.classList.add("selected");
-    }
-
-    function trainModel() {
-      const candidate = candidates[selected[0]];
-      trainingData.push(candidate);
-      for (let trait of ["skill", "experience", "communication", "ambition"]) {
-        const value = candidate[trait];
-        aiModel[trait] = aiModel[trait] || {};
-        aiModel[trait][value] = (aiModel[trait][value] || 0) + 1;
+      if (selected.includes(index)) {
+        selected = selected.filter(i => i !== index);
+        card.classList.remove("selected");
+      } else {
+        if (selected.length < 3) {
+          selected.push(index);
+          card.classList.add("selected");
+        } else {
+          alert("You can select up to 3 candidates.");
+        }
       }
     }
 
+    function trainModel() {
+      selected.forEach(index => {
+        const candidate = candidates[index];
+        trainingData.push(candidate);
+        for (let trait of ["skill", "experience", "communication", "ambition"]) {
+          const value = candidate[trait];
+          aiModel[trait] = aiModel[trait] || {};
+          aiModel[trait][value] = (aiModel[trait][value] || 0) + 1;
+        }
+      });
+    }
+
     function aiSelectCandidate() {
-      let bestFitIndex = 0;
+      let bestFitIndex = -1;
       let highestScore = -Infinity;
 
       candidates.forEach((c, i) => {
+        if (selected.includes(i)) return; // avoid re-selecting user's picks
         let score = 0;
         for (let trait of ["skill", "experience", "communication", "ambition"]) {
           if (aiModel[trait][c[trait]]) {
@@ -143,16 +157,29 @@
       });
     }
 
+    function showUserSummary() {
+      let summary = selected.map(index => {
+        const c = candidates[index];
+        return `<li><strong>${c.name}</strong>: Skill=${c.skill}, Experience=${c.experience}, Communication=${c.communication}, Ambition=${c.ambition}</li>`;
+      }).join("");
+      document.getElementById("feedback").innerHTML = `
+        <h3>Your Selection Summary</h3>
+        <ul>${summary}</ul>
+      `;
+    }
+
     function submitSelection() {
-      if (round === 1 && selected.length !== 1) {
-        alert("Please select exactly 1 candidate.");
+      if (round === 1 && (selected.length < 1 || selected.length > 3)) {
+        alert("Please select between 1 and 3 candidates.");
         return;
       }
 
       if (round === 1) {
         trainModel();
-        biasScore = candidates[selected[0]].biasScore;
+        biasScore = Math.max(...selected.map(i => candidates[i].biasScore));
         document.getElementById("submitBtn").innerText = "Let AI Decide";
+        document.getElementById("roundTitle").innerText = "Round 2: AI Decides";
+        showUserSummary();
         round++;
         selected = [];
         renderCandidates();
@@ -171,7 +198,7 @@
         ? "⚠️ Your model favored high-performance traits aggressively. This may reflect bias toward elite profiles."
         : "✅ Your model shows balanced decision-making. Lower bias detected.";
 
-      document.getElementById("feedback").innerText = feedback;
+      document.getElementById("feedback").innerHTML += `<p>${feedback}</p>`;
     }
 
     function showFinalReport() {
@@ -184,7 +211,7 @@
 
       document.getElementById("report").innerHTML = `
         <h3>Final Report</h3>
-        <p>Your AI model learned from your choice and began favoring:</p>
+        <p>Your AI model learned from your choices and began favoring:</p>
         <ul>${traitsLearned}</ul>
         <p>It selected <strong>${chosen.name}</strong> based on matching traits.</p>
         <p>This shows how even simple decisions can shape algorithmic behavior. You trained the system — now imagine it hiring thousands.</p>
@@ -204,6 +231,7 @@
       document.getElementById("submitBtn").innerText = "Submit Selection";
       document.getElementById("submitBtn").style.display = "inline-block";
       document.getElementById("restartBtn").style.display = "none";
+      document.getElementById("roundTitle").innerText = "Round 1: You Decide";
       renderCandidates();
     }
 
