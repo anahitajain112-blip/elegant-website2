@@ -7,7 +7,7 @@ body {
   line-height: 1.6;
   margin: 0;
   padding: 0;
-  background-image: url('assets/bg.png'); /* optional pixel background */
+  background-image: url('assets/bg.png');
   background-size: cover;
   background-repeat: repeat;
 }
@@ -73,6 +73,12 @@ nav a:hover {
   color: #FF6B6B;
 }
 
+nav a:focus,
+.cta-button:focus {
+  outline: 2px dashed #FFD166;
+  outline-offset: 4px;
+}
+
 /* Hero Image */
 .hero-img {
   max-width: 100%;
@@ -87,11 +93,44 @@ nav a:hover {
   margin-top: 10px;
 }
 
+/* CTA Button */
+.cta-button {
+  display: inline-block;
+  background-color: #FFD166;
+  color: #2E3A59;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.cta-button:hover {
+  background-color: #FF6B6B;
+  color: white;
+}
+
 /* Content Section */
 .content {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+}
+
+/* Blog Post */
+.blog-post {
+  padding-bottom: 40px;
+}
+
+/* Blockquote */
+blockquote {
+  font-style: italic;
+  color: #555;
+  border-left: 4px solid #FFD166;
+  padding-left: 15px;
+  margin: 20px 0;
 }
 
 /* Candidate Grid */
@@ -193,6 +232,15 @@ button:hover {
 
 button:focus {
   outline: 2px solid #FFD166;
+}
+
+/* Footer */
+footer {
+  background-color: #2E3A59;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
 }
 
 /* Bounce Animation */
