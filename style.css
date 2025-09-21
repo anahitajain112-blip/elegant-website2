@@ -81,10 +81,10 @@ nav a:focus,
 
 /* Hero Image */
 .hero-img {
-  max-width: 500px; /* reduce size */
+  max-width: 500px;
   height: auto;
   border-radius: 8px;
-  margin: 20px auto 10px auto; /* center it */
+  margin: 20px auto 10px auto;
   display: block;
 }
 
@@ -135,6 +135,7 @@ blockquote {
   margin: 20px 0;
 }
 
+/* Candidate Grid */
 .candidate-grid {
   display: flex;
   flex-wrap: wrap;
@@ -144,6 +145,7 @@ blockquote {
   padding: 20px;
 }
 
+/* Candidate Card */
 .card {
   background-color: #2E3A59;
   border: 2px solid #444;
@@ -182,11 +184,13 @@ blockquote {
   margin-bottom: 12px;
 }
 
+/* Bounce Animation */
 @keyframes bounce {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
+
 /* Bias Meter */
 #biasMeter {
   margin-top: 30px;
@@ -202,7 +206,7 @@ blockquote {
 #biasFill {
   height: 100%;
   width: 0%;
-  background: #0077ff;  /* same blue as other simulators */
+  background: linear-gradient(to right, #4caf50, #ffd166, #ff4d4d);
   transition: width 0.5s ease;
 }
 
@@ -225,6 +229,13 @@ blockquote {
 }
 
 /* Buttons */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
 button {
   background-color: #2E3A59;
   color: white;
