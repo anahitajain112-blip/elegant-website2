@@ -145,7 +145,6 @@ blockquote {
   padding: 20px;
 }
 
-/* Candidate Card */
 .card {
   background-color: #2E3A59;
   border: 2px solid #444;
@@ -170,13 +169,7 @@ blockquote {
   animation: bounce 0.3s ease;
 }
 
-.card strong {
-  font-size: 18px;
-  display: block;
-  margin-bottom: 10px;
-}
-
-.card img.avatar {
+.card img {
   width: 70px;
   height: 70px;
   border-radius: 6px;
@@ -184,13 +177,11 @@ blockquote {
   margin-bottom: 12px;
 }
 
-/* Bounce Animation */
 @keyframes bounce {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
-
 /* Bias Meter */
 #biasMeter {
   margin-top: 30px;
