@@ -7,6 +7,37 @@
   <title>BiasDecoded: Who Gets Treated?</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Quick styling for selected state so it’s visible */
+    .card {
+      border: 2px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 8px;
+      display: inline-block;
+      width: 180px;
+      vertical-align: top;
+    }
+    .card.selected {
+      border-color: #0077ff;
+      background-color: #eaf3ff;
+    }
+    #biasMeter {
+      width: 100%;
+      height: 20px;
+      background: #eee;
+      margin: 20px 0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    #biasFill {
+      height: 100%;
+      width: 0%;
+      background: #ff6666;
+      transition: width 0.5s ease;
+    }
+  </style>
 </head>
 <body>
 
@@ -49,43 +80,43 @@
 
   <script>
     const candidates = [
-  {
-    name: "Patient A",
-    severity: "Critical",
-    waitTime: "Long",
-    ageGroup: "Elderly",
-    mentalHealth: "Stable",
-    image: "https://via.placeholder.com/70?text=A",
-    biasScore: 30
-  },
-  {
-    name: "Patient B",
-    severity: "Moderate",
-    waitTime: "Short",
-    ageGroup: "Adult",
-    mentalHealth: "At Risk",
-    image: "https://via.placeholder.com/70?text=B",
-    biasScore: 15
-  },
-  {
-    name: "Patient C",
-    severity: "Mild",
-    waitTime: "Medium",
-    ageGroup: "Child",
-    mentalHealth: "Stable",
-    image: "https://via.placeholder.com/70?text=C",
-    biasScore: 10
-  },
-  {
-    name: "Patient D",
-    severity: "Critical",
-    waitTime: "Short",
-    ageGroup: "Adult",
-    mentalHealth: "Unknown",
-    image: "https://via.placeholder.com/70?text=D",
-    biasScore: 25
-  }
-];
+      {
+        name: "Patient A",
+        severity: "Critical",
+        waitTime: "Long",
+        ageGroup: "Elderly",
+        mentalHealth: "Stable",
+        image: "https://via.placeholder.com/70?text=A",
+        biasScore: 30
+      },
+      {
+        name: "Patient B",
+        severity: "Moderate",
+        waitTime: "Short",
+        ageGroup: "Adult",
+        mentalHealth: "At Risk",
+        image: "https://via.placeholder.com/70?text=B",
+        biasScore: 15
+      },
+      {
+        name: "Patient C",
+        severity: "Mild",
+        waitTime: "Medium",
+        ageGroup: "Child",
+        mentalHealth: "Stable",
+        image: "https://via.placeholder.com/70?text=C",
+        biasScore: 10
+      },
+      {
+        name: "Patient D",
+        severity: "Critical",
+        waitTime: "Short",
+        ageGroup: "Adult",
+        mentalHealth: "Unknown",
+        image: "https://via.placeholder.com/70?text=D",
+        biasScore: 25
+      }
+    ];
 
     let selected = [];
     let biasScore = 0;
@@ -235,4 +266,14 @@
       document.getElementById("feedback").innerText = "";
       document.getElementById("report").innerHTML = "";
       document.getElementById("submitBtn").innerText = "Submit Selection";
-      document.getElementById("submit
+      document.getElementById("submitBtn").style.display = "inline-block";
+      document.getElementById("restartBtn").style.display = "none";
+      document.getElementById("roundTitle").innerText = "Round 1: You Decide";
+      renderCandidates();
+    }
+
+    // Render first round
+    renderCandidates();
+  </script>
+</body>
+</html>
