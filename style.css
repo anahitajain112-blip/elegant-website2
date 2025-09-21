@@ -94,7 +94,9 @@ nav a:focus,
 
 /* CTA Button */
 .cta-button {
-  display: inline-block;
+  display: block;
+  width: fit-content;
+  margin: 30px auto;
   background-color: #FFD166;
   color: #2E3A59;
   padding: 12px 20px;
@@ -102,7 +104,6 @@ nav a:focus,
   font-weight: 600;
   text-decoration: none;
   font-size: 16px;
-  margin: 20px auto;
   text-align: center;
 }
 
