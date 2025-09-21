@@ -27,6 +27,20 @@
       font-size: 16px;
       margin-top: 5px;
     }
+    nav {
+      margin-top: 15px;
+    }
+    nav a {
+      display: inline-block;
+      margin: 0 12px;
+      color: #FFD166;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+    }
+    nav a:hover {
+      color: #FF6B6B;
+    }
     .content {
       max-width: 800px;
       margin: 0 auto;
@@ -99,8 +113,14 @@
 <body>
 
   <header>
-    <h1>BiasDecoded Simulator</h1>
+    <h1>BiasDecoded</h1>
     <p class="tagline">Make decisions. Watch bias unfold.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="blog.html">Blog</a>
+      <a href="simulator.html">Simulator</a>
+      <a href="about.html">About</a>
+    </nav>
   </header>
 
   <main>
@@ -233,17 +253,4 @@
 
       if (scenario === "voice") {
         if (choice === "A") {
-          feedback = "⚠️ You selected Sample A. Prioritizing Western accents can marginalize global users.";
-          impact = -10;
-        } else {
-          feedback = "✅ You selected Sample B. Supporting regional accents improves accessibility and inclusion.";
-          impact = +10;
-        }
-        document.getElementById("feedback3").innerHTML = feedback;
-      }
-
-      biasScore += impact;
-      decisions.push({ scenario, choice, impact });
-      updateBiasMeter();
-
-      if (decisions.length === 
+          feedback = "
