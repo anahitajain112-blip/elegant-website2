@@ -42,41 +42,37 @@
     const candidates = [
       {
         name: "Meera",
-        gender: "Female",
-        race: "South Asian",
-        location: "Rural",
-        education: "Community College",
-        zipCode: "560001",
+        skill: "Moderate",
+        experience: "Low",
+        communication: "High",
+        ambition: "Moderate",
         image: "candidate1.png",
         biasScore: 5
       },
       {
         name: "Anjali",
-        gender: "Female",
-        race: "South Asian",
-        location: "Urban",
-        education: "MIT",
-        zipCode: "10001",
+        skill: "High",
+        experience: "High",
+        communication: "Moderate",
+        ambition: "High",
         image: "candidate2.png",
         biasScore: 30
       },
       {
         name: "Rahul",
-        gender: "Male",
-        race: "South Asian",
-        location: "Suburban",
-        education: "State University",
-        zipCode: "400001",
+        skill: "High",
+        experience: "Moderate",
+        communication: "High",
+        ambition: "Moderate",
         image: "candidate3.png",
         biasScore: 15
       },
       {
         name: "Aisha",
-        gender: "Female",
-        race: "Black",
-        location: "Urban",
-        education: "Online Bootcamp",
-        zipCode: "30303",
+        skill: "Moderate",
+        experience: "Moderate",
+        communication: "High",
+        ambition: "High",
         image: "candidate4.png",
         biasScore: 25
       }
@@ -84,7 +80,6 @@
 
     let selected = [];
     let biasScore = 0;
-    let firstScore = 0;
     let round = 1;
     let trainingData = [];
     let aiModel = {};
@@ -98,7 +93,11 @@
         card.className = "card";
         card.innerHTML = `
           <img src="assets/${c.image}" alt="${c.name}" class="avatar" />
-          <strong>${c.name}</strong><br>${c.gender}<br>${c.race}<br>${c.location}<br>${c.education}
+          <strong>${c.name}</strong><br>
+          💻 Skill: ${c.skill}<br>
+          🧳 Experience: ${c.experience}<br>
+          🗣️ Communication: ${c.communication}<br>
+          🎯 Ambition: ${c.ambition}
         `;
         card.onclick = () => toggleSelect(i, card);
         grid.appendChild(card);
@@ -114,7 +113,7 @@
     function trainModel() {
       const candidate = candidates[selected[0]];
       trainingData.push(candidate);
-      for (let trait of ["education", "location", "gender", "race", "zipCode"]) {
+      for (let trait of ["skill", "experience", "communication", "ambition"]) {
         const value = candidate[trait];
         aiModel[trait] = aiModel[trait] || {};
         aiModel[trait][value] = (aiModel[trait][value] || 0) + 1;
@@ -127,7 +126,7 @@
 
       candidates.forEach((c, i) => {
         let score = 0;
-        for (let trait in aiModel) {
+        for (let trait of ["skill", "experience", "communication", "ambition"]) {
           if (aiModel[trait][c[trait]]) {
             score += aiModel[trait][c[trait]];
           }
@@ -153,7 +152,6 @@
       if (round === 1) {
         trainModel();
         biasScore = candidates[selected[0]].biasScore;
-        firstScore = biasScore;
         document.getElementById("submitBtn").innerText = "Let AI Decide";
         round++;
         selected = [];
@@ -170,8 +168,8 @@
       document.getElementById("biasFill").style.width = `${biasScore}%`;
 
       let feedback = biasScore > 20
-        ? "⚠️ Your model favored elite traits. This may reflect systemic bias."
-        : "✅ Your model shows inclusive decision-making. Lower bias detected.";
+        ? "⚠️ Your model favored high-performance traits aggressively. This may reflect bias toward elite profiles."
+        : "✅ Your model shows balanced decision-making. Lower bias detected.";
 
       document.getElementById("feedback").innerText = feedback;
     }
@@ -182,11 +180,14 @@
         return `<li><strong>${trait}</strong>: favored <em>${top[0]}</em></li>`;
       }).join("");
 
+      const chosen = candidates[selected[0]];
+
       document.getElementById("report").innerHTML = `
         <h3>Final Report</h3>
-        <p>Your AI model learned from your choices and began favoring:</p>
+        <p>Your AI model learned from your choice and began favoring:</p>
         <ul>${traitsLearned}</ul>
-        <p>This shows how even small decisions can shape algorithmic bias. You trained the system — now imagine it hiring thousands.</p>
+        <p>It selected <strong>${chosen.name}</strong> based on matching traits.</p>
+        <p>This shows how even simple decisions can shape algorithmic behavior. You trained the system — now imagine it hiring thousands.</p>
       `;
     }
 
@@ -194,7 +195,6 @@
       round = 1;
       selected = [];
       biasScore = 0;
-      firstScore = 0;
       trainingData = [];
       aiModel = {};
       document.getElementById("biasScore").innerText = "Bias Score: 0";
