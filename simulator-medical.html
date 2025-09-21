@@ -8,20 +8,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* Quick styling for selected state so it’s visible */
+    .candidate-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
     .card {
       border: 2px solid #ccc;
       padding: 10px;
       border-radius: 8px;
       cursor: pointer;
-      margin: 8px;
-      display: inline-block;
       width: 180px;
-      vertical-align: top;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
     }
     .card.selected {
       border-color: #0077ff;
       background-color: #eaf3ff;
+    }
+    .card img {
+      border-radius: 6px;
+      margin-bottom: 8px;
     }
     #biasMeter {
       width: 100%;
@@ -132,7 +143,7 @@
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-          <img src="${c.image}" alt="${c.name}" class="avatar" />
+          <img src="${c.image}" alt="${c.name}" width="70" height="70"/>
           <strong>${c.name}</strong><br>
           💉 Severity: ${c.severity}<br>
           ⏱️ Wait Time: ${c.waitTime}<br>
@@ -175,10 +186,9 @@
       let highestScore = -Infinity;
 
       candidates.forEach((c, i) => {
-        if (selected.includes(i)) return;
         let score = 0;
         for (let trait of ["severity", "waitTime", "ageGroup", "mentalHealth"]) {
-          if (aiModel[trait][c[trait]]) {
+          if (aiModel[trait] && aiModel[trait][c[trait]]) {
             score += aiModel[trait][c[trait]];
           }
         }
@@ -235,7 +245,9 @@
         ? "⚠️ Your model prioritized urgency and stability. This may reflect bias in triage decisions."
         : "✅ Your model shows balanced prioritization. Lower bias detected.";
 
-      document.getElementById("feedback").innerHTML += `<p>${feedback}</p>`;
+      if (!document.getElementById("feedback").innerHTML.includes(feedback)) {
+        document.getElementById("feedback").innerHTML += `<p>${feedback}</p>`;
+      }
     }
 
     function showFinalReport() {
