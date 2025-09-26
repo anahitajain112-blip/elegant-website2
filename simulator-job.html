@@ -158,11 +158,11 @@
     function toggleSelect(index, card) {
       if (selected.includes(index)) {
         selected = selected.filter(i => i !== index);
-        card.classList.remove("selected");
+        card.employlist.remove("selected");
       } else {
         if (selected.length < 3) {
           selected.push(index);
-          card.classList.add("selected");
+          card.employlist.add("selected");
         } else {
           alert("You can select up to 3 candidates.");
         }
